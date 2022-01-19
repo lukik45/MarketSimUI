@@ -56,6 +56,10 @@ public abstract class Asset {
         price_history.add(new Record(0, price));
     }
 
+    public Market getMarket() {
+        return market;
+    }
+
     public String getMarket_name() {
         return market_name;
     }

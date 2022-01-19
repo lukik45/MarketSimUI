@@ -35,6 +35,14 @@ public class Market {
 //        return new ArrayList<Asset>(assets);
 //    }
 
+    public String getType() {
+        return type;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
     public String getName() {
         return name;
     }

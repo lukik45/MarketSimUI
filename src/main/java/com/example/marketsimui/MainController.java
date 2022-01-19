@@ -38,8 +38,7 @@ public class MainController implements Initializable {
     @FXML Label assetCountry;
     @FXML
     LineChart<String, Float> priceChart;
-    @FXML
-    LineChart<String, Number> lineChart;
+
 
 
     // right segment fields
@@ -94,22 +93,13 @@ public class MainController implements Initializable {
 //                }
 //            });
 //        }
-//        XYChart.Series<String, Number> series1 = new XYChart.Series<String, Number>();
-//        series1.getData().add(new XYChart.Data<>("Jan", 200));
-//        series1.getData().add(new XYChart.Data<>("Feb", 500));
-//        series1.getData().add(new XYChart.Data<>("Mar", 300));
-//        series1.getData().add(new XYChart.Data<>("Apr", 600));
-//        series1.setName("Month pay 1");
-//
-//        XYChart.Series<String, Number> series2 = new XYChart.Series<String, Number>();
-//        series2.getData().add(new XYChart.Data<>("Jan", 270));
-//        series2.getData().add(new XYChart.Data<>("Feb", 560));
-//        series2.getData().add(new XYChart.Data<>("Mar", 200));
-//        series2.getData().add(new XYChart.Data<>("Apr", 690));
-//        series2.setName("Month pay 2");
-//
-//
-//        lineChart.getData().addAll(series1, series2);
+
+        assetType.setText(currentAsset.getMarket().getType());
+        if (Objects.equals(assetType.getText(), "stock")){
+            assetCountry.setText(currentAsset.getMarket().getCountry().getName());
+        } else {
+            assetCountry.setText("---");
+        }
     }
 
 
@@ -119,8 +109,6 @@ public class MainController implements Initializable {
         currenciesBox.setItems(currenciesList);
 
         updateAssetTable();
-
-
 
 
         // run refresher
