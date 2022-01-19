@@ -1,0 +1,3 @@
+Germany;EUR
+Australia;AUD
+UK;GBP

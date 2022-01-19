@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marketsimui.MainController">
+    <top>
+        <HBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar prefHeight="35.0" prefWidth="955.0">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Settings" />
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+                <ToolBar prefHeight="35.0" prefWidth="326.0">
+                    <items>
+                        <Label prefHeight="17.0" prefWidth="68.0" text="Simulation">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Button mnemonicParsing="false" onAction="#resumeSim" prefHeight="25.0" prefWidth="72.0" text="Resume" />
+                        <Button mnemonicParsing="false" onAction="#pauseSim" prefHeight="25.0" prefWidth="70.0" text="Pause" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="53.0" text="Button" />
+                    </items>
+                </ToolBar>
+            </children>
+        </HBox>
+    </top>
+    <right>
+        <VBox alignment="TOP_CENTER" prefHeight="725.0" prefWidth="233.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#openMarket" prefHeight="40.0" prefWidth="190.0" text="Markets">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            <ComboBox prefHeight="39.0" prefWidth="192.0" promptText="Choose type of market" visibleRowCount="3" />
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Countries">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Separator prefWidth="200.0" />
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Companies">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Commodities">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Currencies">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Separator prefWidth="200.0" />
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Investors">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Funds">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
+                </Button>
+            <VBox prefHeight="62.0" prefWidth="233.0">
+               <children>
+                  <Label text="Currency" />
+                  <HBox>
+                     <children>
+                        <ComboBox fx:id="currenciesBox" prefWidth="150.0" />
+                        <Button mnemonicParsing="false" onAction="#updateCurrentCurrency" text="Set" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+            <padding>
+                <Insets bottom="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </right>
+    <bottom>
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <Button mnemonicParsing="false" text="Button" />
+            </items>
+        </ToolBar>
+    </bottom>
+    <left>
+        <AnchorPane prefHeight="725.0" prefWidth="331.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="109.0" layoutY="23.0" text="Asset Info">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <LineChart layoutX="43.0" layoutY="72.0" prefHeight="112.0" prefWidth="238.0">
+                    <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </LineChart>
+                <GridPane layoutX="55.0" layoutY="318.0" prefWidth="200.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="110.0" text="Type" />
+                        <Label text="Label" GridPane.columnIndex="1" />
+                        <Label text="Country" GridPane.rowIndex="1" />
+                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Label" GridPane.rowIndex="2" />
+                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
+    </left>
+    <center>
+        <TableView prefHeight="725.0" prefWidth="707.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn prefWidth="306.0" text="name" />
+                <TableColumn minWidth="0.0" prefWidth="205.0" text="market" />
+                <TableColumn prefWidth="107.0" text="price" />
+                <TableColumn maxWidth="351.0" minWidth="-Infinity" prefWidth="107.0" text="tendency" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

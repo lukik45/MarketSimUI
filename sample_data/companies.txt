@@ -1,0 +1,115 @@
+SAI Global;Australia
+MECU;Australia
+Bakers Delight;Australia
+ANZ Banking;Australia
+National Australia Bank;Australia
+Commonwealth Bank;Australia
+Bank of Queensland;Australia
+Liquorland;Australia
+Bedford Industries;Australia
+Future Fibre Technologies;Australia
+ANZ Bank;Australia
+Community First Credit Union;Australia
+Connect Credit Union;Australia
+BHP Billiton Limited;Australia
+Wesfarmers;Australia
+BHP BILLITON;Australia
+Fortescue Metals Group;Australia
+Suncorp Group;Australia
+Insurance Australia Group;Australia
+QBE Insurance Group;Australia
+Orica;Australia
+AGL Energy;Australia
+Hansgrohe;Germany
+Haribo;Germany
+Puma Se;Germany
+Avira;Germany
+Suspa;Germany
+Bosch Corporation;Germany
+Evonik Industries;Germany
+Bavarian Nordic;Germany
+Aral AG;Germany
+Aareal Bank AG;Germany
+Zalando;Germany
+DHL;Germany
+Adidas;Germany
+Bayer;Germany
+Deutsche Bank;Germany
+BASF SE;Germany
+Harman Becker Automotive Systems;Germany
+Deutsche Telekom;Germany
+Munich Re Group;Germany
+Aixtron SE;Germany
+SAP SE;Germany
+Ghacks;Germany
+DHL Supply Chain;Germany
+DACHSER;Germany
+BLG Logistics;Germany
+arvato;Germany
+DB Schenker;Germany
+Volkswagen;Germany
+BASF;Germany
+Deutsche Post;Germany
+RWE;Germany
+ThyssenKrupp;Germany
+Deutsche Bahn;Germany
+Volksbank;Germany
+KNORR-BREMSE;Germany
+VOITH;Germany
+SCHOTT;Germany
+LANTIQ;Germany
+ELMOS SEMICONDUCTOR;Germany
+Sage Software;UK
+Control Risks Group;UK
+Creditcall;UK
+swan brand;UK
+CSR plc;UK
+Royal Greenland;UK
+Logicalis;UK
+King Digital Entertainment plc;UK
+Micro Focus;UK
+Bunzl Plc;UK
+Amnesty International;UK
+Mergermarket;UK
+Thomas Cook Airlines;UK
+Schillings;UK
+Aggregate Industries;UK
+TI Automotive;UK
+Control Risks;UK
+BOC Gases;UK
+Bodycote;UK
+Zopa;UK
+Rexam;UK
+Cadbury India;UK
+Avon Rubber PLC;UK
+NICE & JJ CORPORATION;UK
+BP Exploration Alaska;UK
+We Energies;UK
+sophos.com;UK
+Delphi Automotive Systems;UK
+Delphi Packard Electric Systems;UK
+Costain Group PLC;UK
+Deloitte;UK
+Finastra;UK
+Workshare;UK
+Coffee Republic;UK
+Pret a Manger;UK
+Caffe Nero;UK
+Costa Coffee;UK
+AFC ENERGY PLC;UK
+AGGREKO PLC;UK
+AIR PARTNER PLC;UK
+ALLIANCE TRUST PLC;UK
+ANGLO PACIFIC GROUP PLC;UK
+ASHTEAD GROUP PLC;UK
+ASSURA PLC;UK
+ASSOCIATED BRITISH FOODS PLC;UK
+ASTRAZENECA PLC;UK
+AVEVA GROUP PLC;UK
+AVIVA PLC;UK
+AVON RUBBER PLC;UK
+BABCOCK INTERNATIONAL GROUP PLC;UK
+BAE SYSTEMS PLC;UK
+BANGO PLC;UK
+BARCLAYS PLC;UK
+BARRATT DEVELOPMENTS PLC;UK
