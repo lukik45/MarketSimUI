@@ -55,6 +55,7 @@ public class World extends Thread{
         currencies = new HashMap<String, Currency>();
         companies = new HashMap<String, Company>();
         traders = new HashSet<>();
+        allAssets = new HashMap<>();
 
 
         loadWorld();
@@ -120,6 +121,7 @@ public class World extends Thread{
                     new_company.setMarket(m);
                     new_company.initialAction(m);
                     m.addAsset(new_company.getShares());
+                    allAssets.put(new_company.getName(), new_company.getShares());
 
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println(ex.getMessage() + "\n" +
@@ -257,6 +259,10 @@ public class World extends Thread{
 
     public static void setCurrentCurrency(String currentCurrencyId) {
         World.currentCurrency = currencies.get(currentCurrencyId);
+    }
+
+    public static HashMap<String, Asset> getAllAssets() {
+        return allAssets;
     }
 }
 

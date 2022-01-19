@@ -1,9 +1,6 @@
 package com.example.marketsimui;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -14,10 +11,10 @@ public class Market {
     private String name;
     private Country country;
     private String type;
-    private List<Asset> assets;
+    private HashMap<String, Asset> assets;
 
     public Market(String name, String type, Country country) {
-        assets = new ArrayList<>();
+        assets = new HashMap<>();
         this.name = name;
         this.type = type;
         this.country = country;
@@ -31,7 +28,7 @@ public class Market {
     }
 
     public void addAsset(Asset a) {
-        assets.add(a);
+        assets.put(a.getName(),a);
     }
 
 //    public ArrayList<Asset> listAssets() {
@@ -42,7 +39,7 @@ public class Market {
         return name;
     }
 
-    public List<Asset> getAssets() {
+    public HashMap<String, Asset> getAssets() {
         return assets;
     }
 
@@ -51,7 +48,7 @@ public class Market {
      */
     public void printAssets(){
         System.out.println("Assets in " + this.name);
-        for( Asset a : assets){
+        for( Asset a : assets.values()){
             a.printInfo();
         }
     }

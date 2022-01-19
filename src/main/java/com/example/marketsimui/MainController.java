@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.Objects;
@@ -17,15 +18,15 @@ public class MainController implements Initializable {
 
     // middle segment fields
     @FXML private TableView<Asset> table;
-    @FXML private TableColumn<Asset, String> name;
-    @FXML private TableColumn<Asset, String> market;
-    @FXML private TableColumn<Asset, Integer> price;
-    @FXML private TableColumn<Asset, Integer> tendency;
+    @FXML private TableColumn<Asset, String> asset_name;
+    @FXML private TableColumn<Asset, String> asset_market;
+    @FXML private TableColumn<Asset, Float> asset_price;
+    @FXML private TableColumn<Asset, Float> asset_tendency;
 
     public ObservableList<Asset> assetList = FXCollections.observableArrayList(
-            // asset objects should be passed
-            world.geta
-    )
+            // list of asset objects should be passed
+            World.getAllAssets().values()
+    );
 
     // right segment fields
     @FXML
@@ -40,9 +41,24 @@ public class MainController implements Initializable {
     public MainController(World w){
         world = w;
     }
+    public void updateAssetTable() {
+        // asset table
+        asset_name.setCellValueFactory(new PropertyValueFactory<Asset, String>("name"));   //use  the "name" property of our object
+        asset_market.setCellValueFactory(new PropertyValueFactory<Asset, String>("market_name"));
+        asset_price.setCellValueFactory(new PropertyValueFactory<Asset, Float>("price"));
+        asset_tendency.setCellValueFactory(new PropertyValueFactory<Asset, Float>("tendency"));
+        table.setItems(assetList);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //currency setter
         currenciesBox.setItems(currenciesList);
+
+        updateAssetTable();
+
+
+
 
 
 

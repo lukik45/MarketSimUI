@@ -77,6 +77,10 @@ public class Company implements Runnable{
         this.market = market;
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * For now, we assign all the necessary values at random
      */

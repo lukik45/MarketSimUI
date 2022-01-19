@@ -13,12 +13,13 @@ import java.util.List;
 public abstract class Asset {
     protected String name;
     protected Market market;
+    protected String market_name;
     protected float price;
     protected int n_on_market;
     protected int available_to_buy;
     protected float investment_risk; //todo TOTO
     protected List<Record> price_history;       // charts will be built based on this field
-
+    protected float tendency = 0;
 
     protected class Record {
         int time;
@@ -41,12 +42,26 @@ public abstract class Asset {
     public Asset(String name, Market market, float price, int n_on_market, int available_to_buy, float investment_risk) {
         this.name = name;
         this.market = market;
+        if (market != null)
+            this.market_name = market.getName();
         this.price = price;
         this.n_on_market = n_on_market;
         this.available_to_buy = available_to_buy;
         this.investment_risk = investment_risk;
         this.price_history = new ArrayList<>();
         price_history.add(new Record(0, price));
+    }
+
+    public String getMarket_name() {
+        return market_name;
+    }
+
+    public List<Record> getPrice_history() {
+        return price_history;
+    }
+
+    public float getTendency() {
+        return tendency;
     }
 
     public float getPrice(){return price;}
