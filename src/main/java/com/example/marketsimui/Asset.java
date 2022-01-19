@@ -1,5 +1,8 @@
 package com.example.marketsimui;
 
+import javafx.scene.chart.XYChart;
+
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +38,7 @@ public abstract class Asset {
         public float getPrice() {
             return price;
         }
+
     }
 
     public Asset(){}
@@ -100,5 +104,48 @@ public abstract class Asset {
      */
     private void getDataForChart() {
 
+    }
+
+    public XYChart.Series<String, Float> getChartCoords(){
+        XYChart.Series<String, Float> series = new XYChart.Series<>();
+        Record record;
+        Record next_record;
+        int pointer = 0;
+        int pos_in_list = 1;
+        int last_rec;
+        int next_rec;
+        float last_val;
+        float next_val;
+
+        record = price_history.get(0);
+        last_val = record.price;
+        last_rec = record.time;
+
+        try {
+            next_record = price_history.get(1);
+            next_val = next_record.price;
+            next_rec = next_record.time;
+        } catch (IndexOutOfBoundsException ex) {
+            series.getData().add((new XYChart.Data<>(String.valueOf(pointer), last_val)));
+            return series;
+        }
+
+        while (pointer <= World.time){
+            while (pointer < next_rec){
+                series.getData().add(new XYChart.Data<>(String.valueOf(pointer), last_val));
+                pointer +=1;
+            } // pointer = next_val
+            last_rec = next_rec;
+            last_val = next_val;
+            pos_in_list+=1;
+            if (price_history.size() > pos_in_list) {// if there is next record
+                next_record = price_history.get(pos_in_list);
+                next_rec = next_record.time;
+                next_val = next_record.price;
+            } else {
+                next_rec = World.time +1;
+            }
+        }
+        return series;
     }
 }

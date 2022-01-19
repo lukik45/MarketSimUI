@@ -149,7 +149,7 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <LineChart layoutX="43.0" layoutY="72.0" prefHeight="112.0" prefWidth="238.0">
+                <LineChart fx:id="priceChart" layoutX="49.0" layoutY="66.0" prefHeight="112.0" prefWidth="238.0">
                     <xAxis>
                         <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -177,11 +177,17 @@
                         <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
+            <VBox layoutX="111.0" layoutY="461.0" prefHeight="200.0" prefWidth="163.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Select" />
+                  <Button mnemonicParsing="false" text="Button" />
+               </children>
+            </VBox>
             </children>
         </AnchorPane>
     </left>
     <center>
-        <TableView fx:id="table" prefHeight="725.0" prefWidth="707.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="table" onMouseClicked="#assetSelectedAction" prefHeight="725.0" prefWidth="707.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="asset_name" prefWidth="306.0" text="name" />
                 <TableColumn fx:id="asset_market" minWidth="0.0" prefWidth="205.0" text="market" />
