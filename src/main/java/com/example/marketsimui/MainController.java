@@ -37,7 +37,7 @@ public class MainController implements Initializable {
 
     // left segment fields
     @FXML Label assetType;
-    @FXML Label assetCountry;
+
     @FXML
     LineChart<String, Float> priceChart;
 
@@ -98,13 +98,8 @@ public class MainController implements Initializable {
 //                }
 //            });
 //        }
-
         assetType.setText(currentAsset.getMarket().getType());
-        if (Objects.equals(assetType.getText(), "stock")){
-            assetCountry.setText(currentAsset.getMarket().getCountry().getName());
-        } else {
-            assetCountry.setText("---");
-        }
+
     }
 
 
@@ -151,8 +146,14 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    public void openCommodityMarket(ActionEvent event) {
-        // todo -- choose the type of market and open appropriate market window
+    public void openCommodityMarket(ActionEvent event) throws IOException {
+        System.out.println("dupa blada");
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Commodities_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Currency market");
+        stage.setScene(scene);
+        stage.show();
     }
     public void openCurrencyMarket(ActionEvent event) throws IOException {
         // I initialize and load new window here

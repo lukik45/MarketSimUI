@@ -64,6 +64,10 @@ public abstract class Asset {
     public Market getMarket() {
         return market;
     }
+    public void setMarket(Market m) {
+        market = m;
+        market_name = m.getName();
+    }
     public float getPrice() {
 
         return price / World.getCurrExchRate();

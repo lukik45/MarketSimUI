@@ -16,7 +16,7 @@ import static java.lang.Thread.sleep;
  * The container of all the data in  the simulation
  *
  */
-public class World extends Thread{
+public class World extends Thread {
     // settings
     private static int timeout = 180;
     private static float abs_unit = 1;
@@ -74,9 +74,25 @@ public class World extends Thread{
         String cur;
 
         // create currency market
-        // todo
+        Market currencyMarket = new Market("Currency Market", "currency");
+        markets.put("Currency Market",currencyMarket);
+
         // create commodity market
-        // todo
+        Market commodityMarket = new Market("Commodity Market", "commodity");
+        markets.put("Commodity Market",commodityMarket);
+
+        // create objects of commodities
+        try(Scanner in = new Scanner(new File("./sample_data/commodities.txt"))) {
+            while (in.hasNextLine()) {
+                line = in.nextLine().split(";");
+                String comm_name = line[0];
+                float price = Float.parseFloat(line[1]);
+                Currency newCommodity = new Currency(comm_name, price);
+                allAssets.put(comm_name, newCommodity);
+                newCommodity.setMarket(commodityMarket);
+                commodityMarket.addAsset(newCommodity);
+            }
+        }
 
 
         // create objects of currencies
@@ -86,7 +102,11 @@ public class World extends Thread{
                 line = in.nextLine().split(";");
                 String cur_name = line[0];
                 float exch_rate = Float.parseFloat(line[1]);
-                currencies.put(cur_name, new Currency(cur_name, exch_rate));
+                Currency newCurrency = new Currency(cur_name, exch_rate);
+                currencies.put(cur_name, newCurrency);
+                allAssets.put(cur_name, newCurrency);
+                newCurrency.setMarket(currencyMarket);
+                currencyMarket.addAsset(newCurrency);
             }
         }
         //  get random currency
@@ -108,7 +128,7 @@ public class World extends Thread{
                 line = in.nextLine().split(";");
                 name = line[0];
                 String country_name = line[1];
-                Market new_market = new Market(name, "stock", countries.get(country_name));
+                Market new_market = new StockMarket(name, "stock", countries.get(country_name));
                 markets.put(name, new_market);
                 markets_by_countries.put(country_name, new_market);
             }
@@ -234,8 +254,8 @@ public class World extends Thread{
     }
 
 
-    public static void addMarket(String name, String countryName, String type ) {
-        Market newMarket = new Market(name, type, countries.get(countryName)); // fixme- country validation
+    public static void addStockMarket(String name, String countryName, String type ) {
+        Market newMarket = new StockMarket(name, type, countries.get(countryName)); // fixme- country validation
         markets.put(name, newMarket);
         if (Objects.equals(type, "stock")) {
             markets_by_countries.put(countryName, newMarket);
@@ -257,7 +277,17 @@ public class World extends Thread{
     }
 
     public static void addCurrency(String name, float price){
-        currencies.put(name, new Currency(name, price));
+        Currency c = new Currency(name, price);
+        currencies.put(name, c);
+        markets.get("Currency Market").addAsset(c);
+        c.setMarket(markets.get("Currency Market"));
+    }
+
+    public static void addCommodity(String name, float price){
+        Commodity c = new Commodity(name, price);
+
+        markets.get("Commodity Market").addAsset(c);
+        c.setMarket(markets.get("Commodity Market"));
     }
 
     public boolean isPaused() {
@@ -285,6 +315,10 @@ public class World extends Thread{
     }
     public static HashMap<String, Currency> getCurrencies() {
         return currencies;
+    }
+
+    public static HashMap<String, Asset> getCommodities() {
+        return markets.get("Commodity Market").getAssets();
     }
 
 

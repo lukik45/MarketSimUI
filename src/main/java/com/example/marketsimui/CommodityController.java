@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,20 +21,20 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CurrenciesController implements Initializable {
+public class CommodityController implements Initializable {
 
 
-    @FXML TableView<Currency> table;
-    @FXML private TableColumn<Currency, String> curr_name;
-    @FXML private TableColumn<Currency, Float> curr_price;
+    @FXML TableView<Asset> table;
+    @FXML private TableColumn<Asset, String> comm_name;
+    @FXML private TableColumn<Asset, Float> comm_price;
     @FXML private ComboBox<String> currenciesBox;
 
-    @FXML private ListView<String> validInCountriesList;
+
     @FXML private LineChart<String, Float> priceChart;
-    private Currency selected_currency;
+    private Asset selected_commodity;
 
     ObservableList<String> currenciesConvertList;
-    public ObservableList<Currency> currList;
+    public ObservableList<Asset> commList;
 
 
 
@@ -46,8 +45,8 @@ public class CurrenciesController implements Initializable {
         );
 
 
-        currList = FXCollections.observableArrayList(
-                World.getCurrencies().values()
+        commList = FXCollections.observableArrayList(
+                World.getCommodities().values()
         );
 
 
@@ -59,9 +58,9 @@ public class CurrenciesController implements Initializable {
 
 
     public void updateCurrenciesTable() {
-        curr_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        curr_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        table.setItems(currList);
+        comm_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        comm_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        table.setItems(commList);
     }
 
 
@@ -91,17 +90,17 @@ public class CurrenciesController implements Initializable {
 
     private void updateInfo(){
         priceChart.getData().clear();
-        XYChart.Series<String, Float> series1 = selected_currency.getChartCoords();
+        XYChart.Series<String, Float> series1 = selected_commodity.getChartCoords();
         priceChart.getData().add(series1);
 
-        validInCountriesList.setItems(selected_currency.getValidCountries());
+
 
     }
 
     // actions
     public void currencySelectedAction(MouseEvent event) {
-        selected_currency = table.getSelectionModel().getSelectedItem();
-        System.out.println(selected_currency.getName());
+        selected_commodity = table.getSelectionModel().getSelectedItem();
+        System.out.println(selected_commodity.getName());
         updateInfo();
     }
 
@@ -111,7 +110,7 @@ public class CurrenciesController implements Initializable {
         System.out.println(chosenCurrencyId);
         World.setCurrentCurrency(chosenCurrencyId);
         assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
-        if(selected_currency != null) {
+        if(selected_commodity != null) {
             table.refresh();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
@@ -125,9 +124,9 @@ public class CurrenciesController implements Initializable {
     public void openAdditionMenu(ActionEvent event) throws IOException {
         // I initialize and load new window here
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddCurrency_view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddCommodity_view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Add Currency");
+        stage.setTitle("Add Commodity");
         stage.setScene(scene);
         stage.showAndWait();
         System.out.println("now motherfuckers");

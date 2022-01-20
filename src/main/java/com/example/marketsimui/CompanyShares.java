@@ -22,5 +22,9 @@ public class CompanyShares extends Asset {
         price_history.add(new Asset.Record(World.time, price));
     }
 
+    public float getTotalValueOnMarket(){
+        return price * n_on_market;
+    }
+
 }
 

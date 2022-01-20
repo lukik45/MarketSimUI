@@ -1,6 +1,5 @@
 package com.example.marketsimui;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -40,7 +39,7 @@ public class StockMarketAddController implements Initializable {
     public void addMarketAction() {
         String newName = nameField.getText();
         String chosenCountry = (String) countryNameBox.getValue();
-        world.addMarket(newName, chosenCountry, "stock");
+        world.addStockMarket(newName, chosenCountry, "stock");
         nameField.clear();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("Market has been added successfully");

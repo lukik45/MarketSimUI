@@ -1,3 +1,10 @@
 Germany;EUR
 Australia;AUD
 UK;GBP
+RPA;ZAR
+Switzerland;CHF
+USA;USD
+Japan;JPY
+Canada;CAD
+France;EUR
+Italy;EUR

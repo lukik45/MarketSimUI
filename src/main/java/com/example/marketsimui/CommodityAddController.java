@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CurrencyMarketAddController implements Initializable {
+public class CommodityAddController implements Initializable {
     private Currency relative_currency;
 
     @FXML private ComboBox<String> currenciesBox;
@@ -42,10 +42,9 @@ public class CurrencyMarketAddController implements Initializable {
             e.show();
             return;
         }
-
-        if(World.getCurrencies().containsKey(nameField.getText())){
+        if(World.getCommodities().containsKey(nameField.getText())){
             Alert e = new Alert(Alert.AlertType.ERROR);
-            e.setContentText("Currency of given name already exists");
+            e.setContentText("Commodity of given name already exists");
             e.show();
             return;
         }
@@ -57,17 +56,15 @@ public class CurrencyMarketAddController implements Initializable {
             // convert the price to the absolute value:
             newPrice = newPrice * relative_currency.getPrice();
 
-            World.addCurrency(newName, newPrice);
+            World.addCommodity(newName, newPrice);
             nameField.clear();
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("""
-                    Currency has been added successfully
-                    Go to countries menu if you want to use this currency
-                    in some country.""");
+                    Commodity has been added successfully""");
             a.show();
         } catch (NumberFormatException ex) {
             Alert e = new Alert(Alert.AlertType.ERROR);
-            e.setContentText("Provide the number as exchange rate parameter!");
+            e.setContentText("Provide the number as price parameter!");
             e.show();
             priceField.clear();
         }

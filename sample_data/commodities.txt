@@ -1,0 +1,10 @@
+Gold;1800.40
+Silver;30.90
+Copper;455.76
+Wheat;789
+Corn;609.9
+Cocoa;2289
+Blueberry Gum Juice;23002.56
+Portal fluid;199452.56
+Cotton;23.43
+Oil;3445

@@ -9,39 +9,28 @@ import java.util.*;
  */
 public class Market {
     private String name;
-    private Country country;
+
     private String type;
     private HashMap<String, Asset> assets;
 
-    public Market(String name, String type, Country country) {
+    public Market(String name, String type) {
         assets = new HashMap<>();
         this.name = name;
         this.type = type;
-        this.country = country;
-    }
 
-    /**
-     * Update all assets in a market
-     */
-    private void update(){
-        // todo
     }
 
     public void addAsset(Asset a) {
         assets.put(a.getName(),a);
     }
 
-//    public ArrayList<Asset> listAssets() {
-//        return new ArrayList<Asset>(assets);
-//    }
+
 
     public String getType() {
         return type;
     }
 
-    public Country getCountry() {
-        return country;
-    }
+
 
     public String getName() {
         return name;
