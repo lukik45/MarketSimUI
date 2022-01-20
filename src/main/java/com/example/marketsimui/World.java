@@ -234,14 +234,14 @@ public class World extends Thread{
     }
 
 
-    public void addMarket(String name, String countryName, String type ) {
+    public static void addMarket(String name, String countryName, String type ) {
         Market newMarket = new Market(name, type, countries.get(countryName)); // fixme- country validation
         markets.put(name, newMarket);
         if (Objects.equals(type, "stock")) {
             markets_by_countries.put(countryName, newMarket);
         }
     }
-    public void addCompany(String name, String countryName) {
+    public static void addCompany(String name, String countryName) {
         Company newCompany = new Company(name, countries.get(countryName));
         companies.put(name, newCompany);
         Market m = markets_by_countries.get(countryName);
@@ -249,6 +249,10 @@ public class World extends Thread{
         newCompany.initialAction(m);
         m.addAsset(newCompany.getShares());
 
+    }
+
+    public static void addCurrency(String name, float price){
+        currencies.put(name, new Currency(name, price));
     }
 
     public boolean isPaused() {

@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
@@ -13,7 +15,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -30,17 +34,26 @@ public class CurrenciesController implements Initializable {
     @FXML private LineChart<String, Float> priceChart;
     private Currency selected_currency;
 
-
-    ObservableList<String> currenciesConvertList = FXCollections.observableArrayList(
-            World.getCurrencies().keySet()  // fixme -- may cause troubles
-            //"EUR", "GBP", "AUD"
-    );
+    ObservableList<String> currenciesConvertList;
+    public ObservableList<Currency> currList;
 
 
-    public ObservableList<Currency> currList = FXCollections.observableArrayList(
-            World.getCurrencies().values()
-    );
 
+    public void loadData() {
+        currenciesConvertList = FXCollections.observableArrayList(
+                World.getCurrencies().keySet()  // fixme -- may cause troubles
+                //"EUR", "GBP", "AUD"
+        );
+
+
+        currList = FXCollections.observableArrayList(
+                World.getCurrencies().values()
+        );
+
+
+        currenciesBox.setItems(currenciesConvertList);
+        updateCurrenciesTable();
+    }
 
 
 
@@ -66,11 +79,11 @@ public class CurrenciesController implements Initializable {
         }
     };
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currenciesBox.setItems(currenciesConvertList);
-        updateCurrenciesTable();
-
+        loadData();
         new Thread(refresher).start();
     }
 
@@ -107,4 +120,23 @@ public class CurrenciesController implements Initializable {
         }
 
     }
+
+
+    public void openAdditionMenu(ActionEvent event) throws IOException {
+        // I initialize and load new window here
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddCurrencyMarket_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Add Currency");
+        stage.setScene(scene);
+        stage.showAndWait();
+        System.out.println("now motherfuckers");
+        loadData();
+
+
+
+
+
+    }
+
 }
