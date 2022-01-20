@@ -165,8 +165,14 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void openCountries(ActionEvent event) {
-        // todo -- open countries window
+    public void openCountries(ActionEvent event) throws IOException {
+        System.out.println("dupa blada");
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Countries_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Countries");
+        stage.setScene(scene);
+        stage.show();
     }
     public void openCompanies(ActionEvent event) {
         // todo -- open companies window

@@ -241,6 +241,11 @@ public class World extends Thread{
             markets_by_countries.put(countryName, newMarket);
         }
     }
+    public static void addCountry(String name, String currencyName) {
+        Country newCountry = new Country(name, currencies.get(currencyName));
+        countries.put(name ,newCountry);
+    }
+
     public static void addCompany(String name, String countryName) {
         Company newCompany = new Company(name, countries.get(countryName));
         companies.put(name, newCompany);
@@ -259,9 +264,12 @@ public class World extends Thread{
         return paused;
     }
 
+    public static HashMap<String, Country> getCountries() {
+        return countries;
+    }
 
 
-    // getters setters
+// getters setters
 
 
     public static Currency getCurrentCurrency() {

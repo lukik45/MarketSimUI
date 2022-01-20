@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5635451505016722" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+<SplitPane dividerPositions="0.5635451505016722" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marketsimui.CountriesController">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="371.0">
             <children>
-                <VBox layoutX="157.0" layoutY="99.0" prefHeight="398.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox prefHeight="398.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Label text="List of countries">
                             <font>
                                 <Font size="24.0" />
                             </font>
                         </Label>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
-                        <Label text="Valid currencies">
+                        <Label>
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="countryName" prefWidth="113.60000306367874" text="Country" />
+                      <TableColumn fx:id="currencyName" prefWidth="109.5999755859375" text="Currency" />
+                    </columns>
+                  </TableView>
+                  <HBox />
                     </children>
                 </VBox>
             </children></AnchorPane>
@@ -51,16 +58,16 @@
                     </rowConstraints>
                     <children>
                         <Label text="Name" />
-                        <TextField GridPane.columnIndex="1" />
+                        <TextField fx:id="nameField" GridPane.columnIndex="1" />
                     </children>
                 </GridPane>
-                <Label layoutX="8.0" layoutY="199.0" text="Add currency to country">
+                <Label layoutX="19.0" layoutY="124.0" text="Choose currency for a  new country">
                     <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                     </font>
                 </Label>
-                <ChoiceBox layoutX="30.0" layoutY="243.0" prefWidth="150.0" />
-                <Button layoutX="79.0" layoutY="290.0" mnemonicParsing="false" text="Add" />
+                <Button layoutX="173.0" layoutY="158.0" mnemonicParsing="false" onAction="#addCountryAction" text="Add" />
+            <ComboBox fx:id="currenciesBox" layoutX="19.0" layoutY="158.0" prefWidth="150.0" />
             </children></AnchorPane>
     </items>
 </SplitPane>
