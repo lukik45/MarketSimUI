@@ -7,6 +7,7 @@ public class Country {
     public Country(String name, Currency currency){
         this.name = name;
         this.currency = currency;
+        currency.addLegalCountry(this);
     }
 
     public String getName() {

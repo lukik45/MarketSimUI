@@ -3,7 +3,6 @@ package com.example.marketsimui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -48,8 +46,10 @@ public class MainController implements Initializable {
     // right segment fields
     @FXML
     ComboBox<String> currenciesBox;
-    ObservableList<String> currenciesList = FXCollections.observableArrayList(
-            "EUR", "GBP", "AUD");
+    ObservableList<String> currenciesConvertList = FXCollections.observableArrayList(
+            World.getCurrencies().keySet()  // fixme -- may cause troubles
+            //"EUR", "GBP", "AUD"
+    );
 
     Runnable refresher = new Runnable() {
         @Override
@@ -111,7 +111,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //currency setter
-        currenciesBox.setItems(currenciesList);
+        currenciesBox.setItems(currenciesConvertList);
 
         updateAssetTable();
 
@@ -154,8 +154,15 @@ public class MainController implements Initializable {
     public void openCommodityMarket(ActionEvent event) {
         // todo -- choose the type of market and open appropriate market window
     }
-    public void openCurrencyMarket(ActionEvent event) {
-        // todo -- choose the type of market and open appropriate market window
+    public void openCurrencyMarket(ActionEvent event) throws IOException {
+        // I initialize and load new window here
+        System.out.println("dupa blada");
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Currencies_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Currency market");
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void openCountries(ActionEvent event) {

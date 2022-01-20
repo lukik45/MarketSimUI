@@ -1,6 +1,10 @@
 package com.example.marketsimui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.Inflater;
 
@@ -13,7 +17,7 @@ public class Currency extends Asset{
     public Currency(String curr_name, float exchange_rate){
 
         super(curr_name, null, exchange_rate, Integer.MAX_VALUE, Integer.MAX_VALUE, (float) 0.5);
-
+        legal_in = new HashSet<>();
 
     }
 
@@ -22,10 +26,21 @@ public class Currency extends Asset{
         return 0; //TODO
     }
 
+    public ObservableList<String> getValidCountries() {
+        ObservableList<String> validCountries = FXCollections.observableArrayList();
+        for(Country c : legal_in){
+            validCountries.add(c.getName());
+        }
+        return validCountries;
+    }
 
     @Override
     public void update(float value) {
 
+    }
+
+    public void addLegalCountry(Country c){
+        legal_in.add(c);
     }
 }
 

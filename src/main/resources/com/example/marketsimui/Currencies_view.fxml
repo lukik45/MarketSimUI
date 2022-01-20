@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<SplitPane dividerPositions="0.4295774647887324" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marketsimui.CurrenciesController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <ListView fx:id="validInCountriesList" layoutX="144.0" layoutY="432.0" prefHeight="200.0" prefWidth="200.0" />
+            <Label layoutX="144.0" layoutY="399.0" text="Valid in:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <LineChart fx:id="priceChart" layoutX="54.0" layoutY="14.0" prefHeight="351.0" prefWidth="452.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <TableView fx:id="table" layoutX="93.0" layoutY="38.0" onMouseClicked="#currencySelectedAction" prefHeight="332.0" prefWidth="275.0">
+              <columns>
+                <TableColumn fx:id="curr_name" prefWidth="143.0" text="Name" />
+                <TableColumn fx:id="curr_price" prefWidth="123.0" text="Exchange rate" />
+              </columns>
+            </TableView>
+            <ComboBox fx:id="currenciesBox" layoutX="429.0" layoutY="96.0" prefWidth="150.0" />
+            <Button layoutX="579.0" layoutY="96.0" mnemonicParsing="false" onAction="#updateCurrentCurrency" text="Button" />
+            <Label layoutX="429.0" layoutY="69.0" text="Comparator currency" />
+            <Button layoutX="93.0" layoutY="465.0" mnemonicParsing="false" text="Add currency" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

@@ -35,18 +35,18 @@ public class StockMarketController  {
 
 
 
-//    public void openAdditionMenu(ActionEvent event) throws IOException {
-//        // I initialize and load new window here
-//        Stage stage = new Stage();
-//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStockMarket_view.fxml"));
-//        fxmlLoader.setControllerFactory(c -> {
-//            return new MainController(world);
-//        });
-//        Scene scene = new Scene(fxmlLoader.load());
-//        stage.setTitle("Add Market");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
+    public void openAdditionMenu(ActionEvent event) throws IOException {
+        // I initialize and load new window here
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStockMarket_view.fxml"));
+        fxmlLoader.setControllerFactory(c -> {
+            return new StockMarketAddController(world);
+        });
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Add Market");
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
 

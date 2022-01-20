@@ -120,6 +120,8 @@ public class Trader {
     private void buyAt(Market next_market) {
         // choose an asset to buy
         List<Asset> promising_assets = new ArrayList<>(next_market.getAssets().values());
+        if(promising_assets.size() == 0)
+            return;
         try {
             // buy some
             while (mind.nextFloat() < 0.6) {

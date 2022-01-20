@@ -271,6 +271,9 @@ public class World extends Thread{
     public static HashMap<String, Asset> getAllAssets() {
         return allAssets;
     }
+    public static HashMap<String, Currency> getCurrencies() {
+        return currencies;
+    }
 
 
     public static float exchangeForCurrentCurrency(float value){
@@ -288,5 +291,7 @@ public class World extends Thread{
         );
         return countryNames;
     }
+
+
 }
 

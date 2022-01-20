@@ -76,7 +76,7 @@
                     <children>
                         <Button mnemonicParsing="false" text="Edit" />
                         <Button mnemonicParsing="false" text="Show" />
-                  <Button mnemonicParsing="false" text="Add market" />
+                  <Button mnemonicParsing="false" onAction="#openAdditionMenu" text="Add market" />
                     </children>
                 </HBox>
                 <VBox prefHeight="62.0" prefWidth="233.0">
