@@ -1,5 +1,9 @@
 package com.example.marketsimui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -276,6 +280,13 @@ public class World extends Thread{
     }
     public static float getCurrExchRate() {
         return currentCurrency.price;
+    }
+
+    public static ObservableList<String> getCountryNames() {
+        ObservableList<String> countryNames = FXCollections.observableArrayList(
+                countries.keySet()
+        );
+        return countryNames;
     }
 }
 

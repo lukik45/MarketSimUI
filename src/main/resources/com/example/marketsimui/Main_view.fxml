@@ -55,12 +55,29 @@
     <right>
         <VBox alignment="TOP_CENTER" prefHeight="725.0" prefWidth="233.0" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#openMarket" prefHeight="40.0" prefWidth="190.0" text="Markets">
+            <Label text="Markets">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+                <Button mnemonicParsing="false" onAction="#openStockMarket" prefHeight="40.0" prefWidth="150.0" text="Stocks">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Button>
-            <ComboBox prefHeight="39.0" prefWidth="192.0" promptText="Choose type of market" visibleRowCount="3" />
+            <Button mnemonicParsing="false" onAction="#openCommodityMarket" prefHeight="40.0" prefWidth="150.0" text="Commodities">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#openCurrencyMarket" prefHeight="40.0" prefWidth="150.0" text="Currencies">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Button>
                 <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Countries">
                     <font>
                         <Font size="18.0" />

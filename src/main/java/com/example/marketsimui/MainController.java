@@ -5,14 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -66,6 +70,7 @@ public class MainController implements Initializable {
     public MainController(World w){
         world = w;
     }
+
     public void updateAssetTable() {
         // asset table
         asset_name.setCellValueFactory(new PropertyValueFactory<Asset, String>("name"));   //use  the "name" property of our object
@@ -133,7 +138,23 @@ public class MainController implements Initializable {
         }
     }
 
-    public void openMarket(ActionEvent event) {
+    public void openStockMarket(ActionEvent event) throws IOException {
+        // I initialize and load new window here
+        System.out.println("dupa blada");
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("StockMarkets_view.fxml"));
+        fxmlLoader.setControllerFactory(l -> {
+            return new StockMarketController(world);
+        });
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Stock Markets");
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void openCommodityMarket(ActionEvent event) {
+        // todo -- choose the type of market and open appropriate market window
+    }
+    public void openCurrencyMarket(ActionEvent event) {
         // todo -- choose the type of market and open appropriate market window
     }
 
