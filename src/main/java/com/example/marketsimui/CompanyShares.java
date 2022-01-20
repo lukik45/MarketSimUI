@@ -15,9 +15,9 @@ public class CompanyShares extends Asset {
     public void update(float value) {
         available_to_buy -= value;
         if (value >= 0) {
-            price *= 1.02;
+            price *= (1.02 + World.random.nextFloat(0, (float)0.1));
         } else {
-            price += 0.98;
+            price *= (0.98 - World.random.nextFloat(0, (float)0.1));
         }
         price_history.add(new Asset.Record(World.time, price));
     }

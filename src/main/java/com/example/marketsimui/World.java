@@ -17,6 +17,7 @@ public class World extends Thread{
     private static int timeout = 180;
     private static float abs_unit = 1;
     public static int time = 0;
+    public static Random random;
 
 
     // for synchronization
@@ -56,6 +57,8 @@ public class World extends Thread{
         companies = new HashMap<String, Company>();
         traders = new HashSet<>();
         allAssets = new HashMap<>();
+        random = new Random();
+
 
 
         loadWorld();
@@ -263,6 +266,16 @@ public class World extends Thread{
 
     public static HashMap<String, Asset> getAllAssets() {
         return allAssets;
+    }
+
+
+    public static float exchangeForCurrentCurrency(float value){
+        if (currentCurrency == null)
+            return value;
+        return value / currentCurrency.getPrice();
+    }
+    public static float getCurrExchRate() {
+        return currentCurrency.price;
     }
 }
 

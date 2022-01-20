@@ -18,6 +18,7 @@ public abstract class Asset {
     protected Market market;
     protected String market_name;
     protected float price;
+    protected float relative_price;
     protected int n_on_market;
     protected int available_to_buy;
     protected float investment_risk; //todo TOTO
@@ -54,10 +55,19 @@ public abstract class Asset {
         this.investment_risk = investment_risk;
         this.price_history = new ArrayList<>();
         price_history.add(new Record(0, price));
+        relative_price = price;
     }
+
+    public void updateRelativePrice(){}
+
 
     public Market getMarket() {
         return market;
+    }
+    public float getPrice() {
+
+        return price / World.getCurrExchRate();
+
     }
 
     public String getMarket_name() {
@@ -72,7 +82,8 @@ public abstract class Asset {
         return tendency;
     }
 
-    public float getPrice(){return price;}
+
+
     public abstract void update(float value);
 
     public int getN_on_market() {
@@ -122,12 +133,12 @@ public abstract class Asset {
         float next_val;
 
         record = price_history.get(0);
-        last_val = record.price;
+        last_val = World.exchangeForCurrentCurrency(record.price);
         last_rec = record.time;
 
         try {
             next_record = price_history.get(1);
-            next_val = next_record.price;
+            next_val = World.exchangeForCurrentCurrency(next_record.price);
             next_rec = next_record.time;
         } catch (IndexOutOfBoundsException ex) {
             series.getData().add((new XYChart.Data<>(String.valueOf(pointer), last_val)));
@@ -145,7 +156,7 @@ public abstract class Asset {
             if (price_history.size() > pos_in_list) {// if there is next record
                 next_record = price_history.get(pos_in_list);
                 next_rec = next_record.time;
-                next_val = next_record.price;
+                next_val = World.exchangeForCurrentCurrency(next_record.price);
             } else {
                 next_rec = World.time +1;
             }

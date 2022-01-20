@@ -45,7 +45,7 @@ public class MainController implements Initializable {
     @FXML
     ComboBox<String> currenciesBox;
     ObservableList<String> currenciesList = FXCollections.observableArrayList(
-            "USD", "CHF", "UAD");
+            "EUR", "GBP", "AUD");
 
     Runnable refresher = new Runnable() {
         @Override
@@ -179,6 +179,14 @@ public class MainController implements Initializable {
         System.out.println(chosenCurrencyId);
         World.setCurrentCurrency(chosenCurrencyId);
         assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
+        if(currentAsset != null) {
+            table.refresh();
+            table.getColumns().get(0).setVisible(false);
+            table.getColumns().get(0).setVisible(true);
+            updateAssetInfo();
+            System.out.println("updated, should be changed");
+        }
+
     }
 
 }
