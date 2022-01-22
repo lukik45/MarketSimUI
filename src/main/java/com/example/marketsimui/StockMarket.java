@@ -26,4 +26,5 @@ public class StockMarket extends Market{
         indexes.add( i);
 
     }
+
 }

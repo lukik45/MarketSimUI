@@ -167,4 +167,9 @@ public abstract class Asset {
         }
         return series;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

@@ -24,7 +24,10 @@ public class Market {
         assets.put(a.getName(),a);
     }
 
-
+    @Override
+    public String toString() {
+        return name;
+    }
 
     public String getType() {
         return type;

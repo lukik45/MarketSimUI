@@ -46,7 +46,7 @@ public class World extends Thread {
             return nextId.incrementAndGet();
         }
         public static String getUniqueName() {
-            return "Index" + String.valueOf(getId());
+            return "Index" + getId();
         }
     }
 
@@ -60,6 +60,7 @@ public class World extends Thread {
 
 
     public World() throws IOException {
+
         markets = new HashMap<String, Market>();
         markets_by_countries = new HashMap<String, StockMarket>();
         countries = new HashMap<String, Country>();
@@ -211,12 +212,6 @@ public class World extends Thread {
                 t.goForShopping(markets);
             }
         }
-
-
-
-
-
-
     }
 
     /**
@@ -358,6 +353,8 @@ public class World extends Thread {
         return countryNames;
     }
 
-
+    public static HashMap<String, Market> getMarkets() {
+        return markets;
+    }
 }
 

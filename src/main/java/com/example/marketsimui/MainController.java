@@ -30,6 +30,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Asset, Float> asset_price;
     @FXML private TableColumn<Asset, Float> asset_tendency;
 
+
     public ObservableList<Asset> assetList = FXCollections.observableArrayList(
             // list of asset objects should be passed
             World.getAllAssets().values()
@@ -40,6 +41,40 @@ public class MainController implements Initializable {
 
     @FXML
     LineChart<String, Float> priceChart;
+
+    @FXML ListView<Asset> compareViewList;
+
+    private ObservableList<Asset> compareList = FXCollections.observableArrayList();
+
+    public void addAssetToCompare(ActionEvent event){
+        if (currentAsset == null) {
+            Alert e = new Alert(Alert.AlertType.INFORMATION);
+            e.setContentText("Click on the asset which you want to add to comparator, then " +
+                    "click \"Add\" button.");
+            e.show();
+            return;
+        }
+        compareList.add(currentAsset);
+
+    }
+    public void clearComparator(ActionEvent event) {
+        compareList.clear();
+        compareViewList.refresh();
+        priceChart.getData().clear();
+    }
+
+    public void compare(ActionEvent event) {
+        priceChart.getData().clear();
+
+        for (Asset asset : compareList){
+            // get the data
+            XYChart.Series<String, Float> series = asset.getChartCoords();
+            series.setName(asset.getName());
+            priceChart.getData().add(series);
+
+        }
+
+    }
 
 
 
@@ -107,8 +142,9 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //currency setter
         currenciesBox.setItems(currenciesConvertList);
-
+        compareViewList.setItems(compareList);
         updateAssetTable();
+        priceChart.setCreateSymbols(false);
 
 
         // run refresher
@@ -138,9 +174,6 @@ public class MainController implements Initializable {
         System.out.println("dupa blada");
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("StockMarkets_view.fxml"));
-        fxmlLoader.setControllerFactory(l -> {
-            return new StockMarketController(world);
-        });
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Stock Markets");
         stage.setScene(scene);
@@ -165,7 +198,6 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
     public void openCountries(ActionEvent event) throws IOException {
         System.out.println("dupa blada");
         Stage stage = new Stage();
@@ -201,12 +233,6 @@ public class MainController implements Initializable {
         currentAsset.printInfo();
         updateAssetInfo();
     }
-//    public void assetSelectedAction(ActionEvent event) {
-//
-//        currentAsset = table.getSelectionModel().getSelectedItem();
-//        currentAsset.printInfo();
-//        updateAssetInfo();
-//    }
 
 
     public void updateCurrentCurrency(ActionEvent event) {

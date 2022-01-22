@@ -1,8 +1,13 @@
 package com.example.marketsimui;
 
 
+import javafx.beans.value.ObservableFloatValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Index is just an aggregator, it does not hold any specific information
@@ -15,20 +20,27 @@ public class Index {
     ObservableList<CompanyShares> shares;
 
     public Index(String name, Market m){
+        this.name = name;
         market = m;
         shares = FXCollections.observableArrayList();
     }
 
+    private float round (float value){
+        BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.floatValue();
+    }
     /**
      * Sum up all shares that companies in the index issue to the market
      * @return
      */
-    public float getTotalValue(){
+    public String getTotalValue(){
         float totalValue = 0;
-        for(CompanyShares s : shares){
+        for (CompanyShares s : shares){
             totalValue += s.getTotalValueOnMarket();
         }
-        return totalValue;
+
+        return String.format("%,d", (int) totalValue);
     }
 
     public void addCompanyShares(CompanyShares s){

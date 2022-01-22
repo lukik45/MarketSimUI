@@ -11,12 +11,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StockMarketAddController implements Initializable {
-    private World world;
 
 
-    public StockMarketAddController(World w) {
-        world = w;
-    }
+
+
 
 
     // Below there is the code for addition window
@@ -39,7 +37,7 @@ public class StockMarketAddController implements Initializable {
     public void addMarketAction() {
         String newName = nameField.getText();
         String chosenCountry = (String) countryNameBox.getValue();
-        world.addStockMarket(newName, chosenCountry, "stock");
+        World.addStockMarket(newName, chosenCountry, "stock");
         nameField.clear();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setContentText("Market has been added successfully");
