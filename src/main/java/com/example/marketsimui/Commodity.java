@@ -12,11 +12,11 @@ public class Commodity extends Asset{
 
     @Override
     public void update(float value) {
-        if (value >= 0) {
-            price *= (1.002 + World.random.nextFloat(0, (float)0.001));
-        } else {
-            price *= (0.0098 - World.random.nextFloat(0, (float)0.001));
-        }
-        price_history.add(new Asset.Record(World.time, price));
+//        if (value >= 0) {
+//            price *= (1.002 + World.random.nextFloat(0, (float)0.001));
+//        } else {
+//            price *= (0.0098 - World.random.nextFloat(0, (float)0.001));
+//        }
+//        price_history.add(new Asset.Record(World.time, price));
     }
 }

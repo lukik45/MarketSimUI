@@ -36,12 +36,12 @@ public class Currency extends Asset{
 
     @Override
     public void update(float value) {
-        if (value >= 0) {
-            price *= (1.02 + World.random.nextFloat(0, (float)0.1));
-        } else {
-            price *= (0.98 - World.random.nextFloat(0, (float)0.1));
-        }
-        price_history.add(new Asset.Record(World.time, price));
+//        if (value >= 0) {
+//            price *= (1.02 + World.random.nextFloat(0, (float)0.1));
+//        } else {
+//            price *= (0.98 - World.random.nextFloat(0, (float)0.1));
+//        }
+//        price_history.add(new Asset.Record(World.time, price));
     }
 
     public void addLegalCountry(Country c){
