@@ -31,18 +31,24 @@ public class World extends Thread {
 
     // data containers
     private static HashMap<String, Market> markets;
-    private static HashMap<String, Market> markets_by_countries;
+    private static HashMap<String, StockMarket> markets_by_countries;
 
     private static HashMap<String, Country> countries;
     private static HashMap<String, Currency> currencies;
     private static HashMap<String, Company> companies;
     private static HashMap<String, Asset> allAssets;
-
-    IdGenerator idGen;
-
     private Set<Trader> traders;
 
+    private static class IndexNameGenerator{
+        private final static AtomicInteger nextId = new AtomicInteger();
 
+        private static int getId() {
+            return nextId.incrementAndGet();
+        }
+        public static String getUniqueName() {
+            return "Index" + String.valueOf(getId());
+        }
+    }
 
     public static class IdGenerator {
         private final static AtomicInteger nextId = new AtomicInteger();
@@ -55,7 +61,7 @@ public class World extends Thread {
 
     public World() throws IOException {
         markets = new HashMap<String, Market>();
-        markets_by_countries = new HashMap<String, Market>();
+        markets_by_countries = new HashMap<String, StockMarket>();
         countries = new HashMap<String, Country>();
         currencies = new HashMap<String, Currency>();
         companies = new HashMap<String, Company>();
@@ -128,11 +134,19 @@ public class World extends Thread {
                 line = in.nextLine().split(";");
                 name = line[0];
                 String country_name = line[1];
-                Market new_market = new StockMarket(name, "stock", countries.get(country_name));
+                StockMarket new_market = new StockMarket(name, "stock", countries.get(country_name));
                 markets.put(name, new_market);
                 markets_by_countries.put(country_name, new_market);
+
+                // for each market, create a few indexes
+                for (int i = 0; i < random.nextInt(4) + 2; i++) {
+                    Index newIndex = new Index(IndexNameGenerator.getUniqueName(), new_market);
+                    new_market.addIndex(newIndex);
+                }
+
             }
         }
+
 
         //  create companies, add their shares to markets
         try(Scanner in = new Scanner(new File("./sample_data/companies.txt"))) {
@@ -144,11 +158,17 @@ public class World extends Thread {
                     Company new_company = new Company(name, countries.get(country_name));
                     companies.put(name , new_company);
                     // add a company shares to a proper market
-                    Market m = markets_by_countries.get(country_name);
+                    StockMarket m = markets_by_countries.get(country_name);
                     new_company.setMarket(m);
                     new_company.initialAction(m);
                     m.addAsset(new_company.getShares());
                     allAssets.put(new_company.getName(), new_company.getShares());
+
+                    // add the company shares to one or more indexes
+                    for (int i = 0; i < random.nextInt(3)+1; i++) {
+                        Index index = m.getIndexes().get(random.nextInt(m.getIndexes().size()));
+                        index.addCompanyShares(new_company.getShares());
+                    }
 
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     System.out.println(ex.getMessage() + "\n" +
@@ -255,7 +275,7 @@ public class World extends Thread {
 
 
     public static void addStockMarket(String name, String countryName, String type ) {
-        Market newMarket = new StockMarket(name, type, countries.get(countryName)); // fixme- country validation
+        StockMarket newMarket = new StockMarket(name, type, countries.get(countryName)); // fixme- country validation
         markets.put(name, newMarket);
         if (Objects.equals(type, "stock")) {
             markets_by_countries.put(countryName, newMarket);

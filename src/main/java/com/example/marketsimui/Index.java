@@ -1,6 +1,7 @@
 package com.example.marketsimui;
 
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -9,11 +10,13 @@ import javafx.collections.ObservableList;
  * We're not interested in any specific company
  */
 public class Index {
+    String name;
     Market market;
     ObservableList<CompanyShares> shares;
 
-    public Index(Market m){
+    public Index(String name, Market m){
         market = m;
+        shares = FXCollections.observableArrayList();
     }
 
     /**
@@ -26,5 +29,17 @@ public class Index {
             totalValue += s.getTotalValueOnMarket();
         }
         return totalValue;
+    }
+
+    public void addCompanyShares(CompanyShares s){
+        if (shares.contains(s)){
+            return;
+        } else {
+            shares.add(s);
+        }
+    }
+
+    public String getName() {
+        return name;
     }
 }
