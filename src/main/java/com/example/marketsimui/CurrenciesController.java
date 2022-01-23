@@ -32,16 +32,6 @@ public class CurrenciesController extends BaseController implements Initializabl
     public ObservableList<Asset> assetList;
 
 
-    public void loadData() {
-        currenciesConvertList = FXCollections.observableArrayList(
-                World.getCurrencies().keySet());
-
-        assetList = FXCollections.observableArrayList(
-                World.getCurrencies().values());
-
-        currenciesBox.setItems(currenciesConvertList);
-        loadAssetTable();
-    }
 
     public void loadAssetTable() {
         curr_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -49,15 +39,15 @@ public class CurrenciesController extends BaseController implements Initializabl
         table.setItems(assetList);
     }
 
-    @Override
-    protected void refreshStuff() {
-        table.refresh();
+    public void loadData() {
+        assetList = FXCollections.observableArrayList(
+                World.getCurrencies().values());
+        super.loadData();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadData();
-        new Thread(refresher).start();
+        super.initialize(url, resourceBundle);
     }
 
 

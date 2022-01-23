@@ -35,9 +35,7 @@ public class StockMarketController  extends BaseController implements Initializa
     public ObservableList<Asset> assetList = FXCollections.observableArrayList();
 
     @FXML ComboBox<Market> marketsBox;
-    ObservableList<Market> stockMarkets = FXCollections.observableArrayList(
-            World.getMarkets().values()
-    );
+    ObservableList<Market> stockMarkets;
 
     @Override
     protected void refreshStuff() {
@@ -83,15 +81,17 @@ public class StockMarketController  extends BaseController implements Initializa
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //currency setter
-        marketsBox.setItems(stockMarkets);
-        currenciesBox.setItems(currenciesConvertList);
-        loadAssetTable();
-        priceChart.setCreateSymbols(false);
+    public void loadData() {
+        stockMarkets = FXCollections.observableArrayList(
+                World.getMarkets().values());
+        super.loadData();
+    }
 
-        // run refresher
-        new Thread(refresher).start();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        super.initialize(url, resourceBundle);
+
+        marketsBox.setItems(stockMarkets);
     }
 
 

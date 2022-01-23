@@ -4,23 +4,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public abstract class BaseController {
+public abstract class BaseController implements Initializable {
     // each controller has current asset
     protected Asset currentAsset;
 
     // each controller has currencies box
+    ObservableList<String> currenciesConvertList;
     @FXML ComboBox<String> currenciesBox;
-    ObservableList<String> currenciesConvertList = FXCollections.observableArrayList(
-            World.getCurrencies().keySet()  // fixme -- may cause troubles
-            //"EUR", "GBP", "AUD"
-    );
+
 
     // each controller has a table but with different implementations
     @FXML TableView<Asset> table;
@@ -52,7 +53,9 @@ public abstract class BaseController {
     /**
      * Method used by refreshing thread
      */
-    protected abstract void refreshStuff();
+    protected void refreshStuff(){
+        table.refresh();
+    }
 
 
     public void assetSelectedAction(MouseEvent event) {
@@ -88,6 +91,24 @@ public abstract class BaseController {
         if (!World.isPaused()) {
             World.pause();
         }
+    }
+
+
+
+    public void loadData() {
+        currenciesConvertList = FXCollections.observableArrayList(
+                World.getCurrencies().keySet());  // fixme -- may cause troubles
+        currenciesBox.setItems(currenciesConvertList);
+        loadAssetTable();
+
+        // then some specific loads for each controller
+    }
+
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        loadData();
+        priceChart.setCreateSymbols(false);
+        new Thread(refresher).start();
+
     }
 
 }

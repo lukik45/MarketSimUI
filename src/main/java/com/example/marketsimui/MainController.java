@@ -27,10 +27,7 @@ public class MainController extends BaseController implements Initializable {
     @FXML private TableColumn<Asset, Float> asset_tendency;
 
 
-    public ObservableList<Asset> assetList = FXCollections.observableArrayList(
-            // list of asset objects should be passed
-            World.getAllAssets().values()
-    );
+    public ObservableList<Asset> assetList;
 
     @FXML Label assetType;
 
@@ -65,10 +62,6 @@ public class MainController extends BaseController implements Initializable {
 
     }
 
-    @Override
-    protected void refreshStuff() {
-        table.refresh();
-    }
 
     public void loadAssetTable() {
         // asset table
@@ -91,15 +84,18 @@ public class MainController extends BaseController implements Initializable {
     }
 
 
+    public void loadData(){
+        assetList = FXCollections.observableArrayList(
+                World.getAllAssets().values());
+        super.loadData();
+        //
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //currency setter
-        currenciesBox.setItems(currenciesConvertList);
+        super.initialize(url, resourceBundle);
+
         compareViewList.setItems(compareList);
-        loadAssetTable();
-        priceChart.setCreateSymbols(false);
-        // run refresher
-        new Thread(refresher).start();
     }
 
     // Right segment functions (specific for this controller)
