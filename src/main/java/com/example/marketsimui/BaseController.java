@@ -7,12 +7,13 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Objects;
 
 public abstract class BaseController {
     // each controller has current asset
-    Asset currentAsset;
+    protected Asset currentAsset;
 
     // each controller has currencies box
     @FXML ComboBox<String> currenciesBox;
@@ -54,6 +55,15 @@ public abstract class BaseController {
     protected abstract void refreshStuff();
 
 
+    public void assetSelectedAction(MouseEvent event) {
+
+        currentAsset = table.getSelectionModel().getSelectedItem();
+        currentAsset.printInfo();
+        assert currentAsset != null;
+        loadAssetInfo();
+    }
+
+
     // method to change current currency
     public void updateCurrentCurrency(ActionEvent event) {
         String chosenCurrencyId = currenciesBox.getValue();
@@ -61,7 +71,7 @@ public abstract class BaseController {
         World.setCurrentCurrency(chosenCurrencyId);
         assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
         if(currentAsset != null) {
-            table.refresh();
+            refreshStuff();
             table.getColumns().get(0).setVisible(false);
             table.getColumns().get(0).setVisible(true);
             loadAssetInfo();

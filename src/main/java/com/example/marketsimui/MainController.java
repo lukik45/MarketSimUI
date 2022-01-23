@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,12 +18,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
-    World world;
-    Asset currentAsset;
+public class MainController extends BaseController implements Initializable {
 
-    // middle segment fields
-    @FXML private TableView<Asset> table;
+    // table fields
     @FXML private TableColumn<Asset, String> asset_name;
     @FXML private TableColumn<Asset, String> asset_market;
     @FXML private TableColumn<Asset, Float> asset_price;
@@ -36,16 +32,10 @@ public class MainController implements Initializable {
             World.getAllAssets().values()
     );
 
-    // left segment fields
     @FXML Label assetType;
 
-    @FXML
-    LineChart<String, Float> priceChart;
-
     @FXML ListView<Asset> compareViewList;
-
     private ObservableList<Asset> compareList = FXCollections.observableArrayList();
-
     public void addAssetToCompare(ActionEvent event){
         if (currentAsset == null) {
             Alert e = new Alert(Alert.AlertType.INFORMATION);
@@ -62,7 +52,6 @@ public class MainController implements Initializable {
         compareViewList.refresh();
         priceChart.getData().clear();
     }
-
     public void compare(ActionEvent event) {
         priceChart.getData().clear();
 
@@ -76,37 +65,12 @@ public class MainController implements Initializable {
 
     }
 
-
-
-    // right segment fields
-    @FXML
-    ComboBox<String> currenciesBox;
-    ObservableList<String> currenciesConvertList = FXCollections.observableArrayList(
-            World.getCurrencies().keySet()  // fixme -- may cause troubles
-            //"EUR", "GBP", "AUD"
-    );
-
-    Runnable refresher = new Runnable() {
-        @Override
-        public void run() {
-            while(!Thread.interrupted()) {
-                table.refresh();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
-
-
-
-    public MainController(World w){
-        world = w;
+    @Override
+    protected void refreshStuff() {
+        table.refresh();
     }
 
-    public void updateAssetTable() {
+    public void loadAssetTable() {
         // asset table
         asset_name.setCellValueFactory(new PropertyValueFactory<Asset, String>("name"));   //use  the "name" property of our object
         asset_market.setCellValueFactory(new PropertyValueFactory<Asset, String>("market_name"));
@@ -118,8 +82,7 @@ public class MainController implements Initializable {
     /**
      * Update the chart and the details
      */
-    public void updateAssetInfo() {
-
+    public void loadAssetInfo() {
         priceChart.getData().clear();
         XYChart.Series<String, Float> series1 = currentAsset.getChartCoords();
 
@@ -133,32 +96,13 @@ public class MainController implements Initializable {
         //currency setter
         currenciesBox.setItems(currenciesConvertList);
         compareViewList.setItems(compareList);
-        updateAssetTable();
+        loadAssetTable();
         priceChart.setCreateSymbols(false);
-
-
         // run refresher
         new Thread(refresher).start();
-
     }
 
-    // Central segment functions
-
-
-
-    // Right segment functions
-
-    public void resumeSim(ActionEvent event) {
-        if (world.isPaused())
-            world.resume_();
-    }
-
-    public void pauseSim(ActionEvent event) {
-        if (!world.isPaused()) {
-            world.pause();
-        }
-    }
-
+    // Right segment functions (specific for this controller)
     public void openStockMarket(ActionEvent event) throws IOException {
         // I initialize and load new window here
         System.out.println("dupa blada");
@@ -211,33 +155,6 @@ public class MainController implements Initializable {
     }
     public void openFunds(ActionEvent event) {
         // todo -- open finds window
-    }
-
-
-
-    // Actions
-
-    public void assetSelectedAction(MouseEvent event) {
-
-        currentAsset = table.getSelectionModel().getSelectedItem();
-        currentAsset.printInfo();
-        updateAssetInfo();
-    }
-
-
-    public void updateCurrentCurrency(ActionEvent event) {
-        String chosenCurrencyId = currenciesBox.getValue();
-        System.out.println(chosenCurrencyId);
-        World.setCurrentCurrency(chosenCurrencyId);
-        assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
-        if(currentAsset != null) {
-            table.refresh();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
-            updateAssetInfo();
-            System.out.println("updated, should be changed");
-        }
-
     }
 
 }

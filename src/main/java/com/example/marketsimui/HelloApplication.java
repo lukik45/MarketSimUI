@@ -18,9 +18,6 @@ public class HelloApplication extends Application {
         worldTh.start();
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Main_view.fxml"));
-        fxmlLoader.setControllerFactory(c -> {
-            return new MainController(worldTh);
-        });
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);

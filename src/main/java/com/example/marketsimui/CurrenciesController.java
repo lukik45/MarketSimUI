@@ -37,6 +37,7 @@ public class CurrenciesController implements Initializable {
     ObservableList<String> currenciesConvertList;
     public ObservableList<Currency> currList;
 
+
     public void loadData() {
         currenciesConvertList = FXCollections.observableArrayList(
                 World.getCurrencies().keySet());
@@ -74,6 +75,8 @@ public class CurrenciesController implements Initializable {
         new Thread(refresher).start();
     }
 
+
+
     private void updateInfo(){
         priceChart.getData().clear();
         XYChart.Series<String, Float> series1 = selected_currency.getChartCoords();
@@ -83,26 +86,24 @@ public class CurrenciesController implements Initializable {
 
     // actions
     public void currencySelectedAction(MouseEvent event) {
-//        selected_currency = table.getSelectionModel().getSelectedItem();
-//        System.out.println(selected_currency.getName());
-//        updateInfo();
-
+        selected_currency = table.getSelectionModel().getSelectedItem();
+        System.out.println(selected_currency.getName());
+        updateInfo();
     }
 
-    public void updateCurrentCurrency(ActionEvent event) {
-//        String chosenCurrencyId = currenciesBox.getValue();
-//        System.out.println(chosenCurrencyId);
-//        World.setCurrentCurrency(chosenCurrencyId);
-//        assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
-//        if(selected_currency != null) {
-//            table.refresh();
-//            table.getColumns().get(0).setVisible(false);
-//            table.getColumns().get(0).setVisible(true);
-//            // todo update info
-//            System.out.println("updated, should be changed");
-        UtilitiesUI utUI = new UtilitiesUI();
-        utUI.updateCurrentCurrency(event);
 
+    public void updateCurrentCurrency(ActionEvent event) {
+        String chosenCurrencyId = currenciesBox.getValue();
+        System.out.println(chosenCurrencyId);
+        World.setCurrentCurrency(chosenCurrencyId);
+        assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
+        if(selected_currency != null) {
+            table.refresh();
+            table.getColumns().get(0).setVisible(false);
+            table.getColumns().get(0).setVisible(true);
+            // todo update info
+            System.out.println("updated, should be changed");
+        }
     }
 
     public void openAdditionMenu(ActionEvent event) throws IOException {
