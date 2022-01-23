@@ -37,6 +37,9 @@ public class StockMarketController  extends BaseController implements Initializa
     @FXML ComboBox<Market> marketsBox;
     ObservableList<Market> stockMarkets;
 
+    StockMarket chosenMarket;
+
+
     @Override
     protected void refreshStuff() {
         table.refresh();
@@ -70,20 +73,11 @@ public class StockMarketController  extends BaseController implements Initializa
         table2.setItems(indexList);
     }
 
-    public void openAdditionMenu(ActionEvent event) throws IOException {
-        // I initialize and load new window here
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStockMarket_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Add Market");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     @Override
     public void loadData() {
         stockMarkets = FXCollections.observableArrayList(
-                World.getMarkets().values());
+                World.getStockMarkets());
         super.loadData();
     }
 
@@ -97,9 +91,45 @@ public class StockMarketController  extends BaseController implements Initializa
 
     public void marketChosenAction(ActionEvent event) {
         assetList.clear();
-        StockMarket chosenMarket = (StockMarket) marketsBox.getValue();
+        chosenMarket = (StockMarket) marketsBox.getValue();
         assetList.addAll(chosenMarket.getAssets().values());
         indexList = chosenMarket.getIndexes();
         loadIndexTable();
+    }
+
+    public void openMarketAdditionMenu(ActionEvent event) throws IOException {
+        // I initialize and load new window here
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddStockMarket_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Add Market");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void openCompanyAdditionMenu(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddCompany_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Add Company");
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void openIndexAdditionMenu(ActionEvent event) throws IOException {
+        if(chosenMarket == null) {
+            Alert e = new Alert(Alert.AlertType.ERROR);
+            e.setContentText("Please select the market to which new index is to  be added.");
+            e.show();
+            return;
+        }
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("AddIndex_view.fxml"));
+        fxmlLoader.setControllerFactory(c -> {
+            return new AddIndexController(chosenMarket);
+        });
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Add Index");
+        stage.setScene(scene);
+        stage.show();
     }
 }

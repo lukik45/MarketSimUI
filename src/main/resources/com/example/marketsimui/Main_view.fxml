@@ -79,6 +79,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
+                <Separator prefWidth="200.0" />
                 <Button mnemonicParsing="false" onAction="#openCountries" prefHeight="25.0" prefWidth="150.0" text="Countries">
                     <font>
                         <Font size="18.0" />
@@ -87,29 +88,12 @@
                         <Insets bottom="20.0" top="10.0" />
                     </VBox.margin>
                 </Button>
-                <Separator prefWidth="200.0" />
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Companies">
+                <Button mnemonicParsing="false" onAction="#openCompanies" prefHeight="25.0" prefWidth="150.0" text="Add company">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <VBox.margin>
                         <Insets bottom="10.0" top="20.0" />
-                    </VBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Commodities">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                    </VBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Currencies">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets bottom="20.0" top="10.0" />
                     </VBox.margin>
                 </Button>
                 <Separator prefWidth="200.0" />

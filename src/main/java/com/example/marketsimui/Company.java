@@ -3,6 +3,7 @@ package com.example.marketsimui;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.max;
@@ -21,21 +22,22 @@ public class Company implements Runnable{
     private Market market;
     private CompanyShares shares;
     private int n_shares;           // describes on how many shares the company is divided (not close to the real world)
-    private int n_shares_sold;
+    private int n_shares_sold;   // fixme -- take care of that value sos that its not greater than released
     private int n_shares_released;
 
+    // todo -- implement all of these::
+//    private float profit;   // profit is: revenue - expenses
+//    private float revenue;
+//
 //    private Date ipo_date;
 //    private float total_value;
 //    private float ipo_share_value;
 //    private float opening_price;
-
-//    private float minimal_price;
-//    private float maximal_price;
-//    private float percent_per_share;
-//    private float percentage_given_away;
-//    private float profit;
-//    private float revenue;
-//    private ArrayList<Float> trading_volume; // how many times the equity was bought, sold
+//
+//    private float minimal_price;  // minimal price in history
+//    private float maximal_price;   // maximal price in history
+//
+//    private int trading_volume; // how many times the equity was bought, sold
 //    private ArrayList<Float> total_sales;
 //
 //    private float currentBehaviour;
@@ -44,6 +46,23 @@ public class Company implements Runnable{
     public Company(String name, Country country) {
         this.name = name;
         this.country = country;
+    }
+    public Company(String name, Market market, float totalValue, float percentIssued){
+        this.name = name;
+        this.market = market;
+        this.country = ((StockMarket)market).getCountry();
+        n_shares = World.random.nextInt((int) totalValue / 1000) + 500;
+        n_shares_released = (int) (n_shares * percentIssued);
+        n_shares_sold = 0;
+        float share_price = totalValue / n_shares;
+
+        shares = new CompanyShares(name, market, share_price, n_shares_released, n_shares_released, (float)0.5);
+        market.addAsset(shares);
+        World.addAsset(shares);
+    }
+
+    public void setIndexes(List<Index> indexes) {
+
     }
 
 //    public void issueShare(Market market){
@@ -82,7 +101,7 @@ public class Company implements Runnable{
     }
 
     /**
-     * For now, we assign all the necessary values at random
+     * method to assign all the necessary values at random
      */
     public void initialAction(Market m) {
         Random rand = new Random();
@@ -96,7 +115,7 @@ public class Company implements Runnable{
 
     @Override
     public void run() {
-        // todo - when I switch to multithread version
+        // todo - when I switch to multi-thread version
         // sth like:
 //        while (alive) {
 //            generateRevenue();

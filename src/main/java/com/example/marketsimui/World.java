@@ -39,6 +39,8 @@ public class World extends Thread {
     private static HashMap<String, Asset> allAssets;
     private Set<Trader> traders;
 
+
+
     private static class IndexNameGenerator{
         private final static AtomicInteger nextId = new AtomicInteger();
 
@@ -100,7 +102,6 @@ public class World extends Thread {
                 commodityMarket.addAsset(newCommodity);
             }
         }
-
 
         // create objects of currencies
         System.out.println(System.getProperty("user.dir"));
@@ -255,7 +256,9 @@ public class World extends Thread {
     }
 
 
-
+    public static void addAsset(Asset a){
+        allAssets.put(a.getName(), a);
+    }
 
     // actions to be performed by the user
     public static synchronized void pause() {
@@ -337,6 +340,10 @@ public class World extends Thread {
     }
 
 
+    public static HashMap<String, Company> getCompanies() {
+        return companies;
+    }
+
     public static float exchangeForCurrentCurrency(float value){
         if (currentCurrency == null)
             return value;
@@ -355,6 +362,17 @@ public class World extends Thread {
 
     public static HashMap<String, Market> getMarkets() {
         return markets;
+    }
+
+    public static ObservableList<StockMarket> getStockMarkets() {
+        ObservableList<StockMarket> stockMarkets = FXCollections.observableArrayList();
+
+        for( Market m : markets.values()){
+            if(m.getType().equals("stock")){
+                stockMarkets.add((StockMarket) m);
+            }
+        }
+        return stockMarkets;
     }
 }
 

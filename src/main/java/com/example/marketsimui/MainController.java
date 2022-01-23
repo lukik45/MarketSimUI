@@ -137,8 +137,14 @@ public class MainController extends BaseController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    public void openCompanies(ActionEvent event) {
-        // todo -- open companies window
+    public void openCompanies(ActionEvent event) throws IOException {
+
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CompanyAdd_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Add company");
+        stage.setScene(scene);
+        stage.show();
     }
     public void openCommodities(ActionEvent event) {
         // todo -- open commodities window

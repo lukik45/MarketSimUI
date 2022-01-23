@@ -70,6 +70,7 @@ public abstract class BaseController implements Initializable {
     // method to change current currency
     public void updateCurrentCurrency(ActionEvent event) {
         String chosenCurrencyId = currenciesBox.getValue();
+        System.out.println("currency updated  "+ chosenCurrencyId);
         System.out.println(chosenCurrencyId);
         World.setCurrentCurrency(chosenCurrencyId);
         assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
