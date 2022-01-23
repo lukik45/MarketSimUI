@@ -124,17 +124,7 @@ public class MainController implements Initializable {
         XYChart.Series<String, Float> series1 = currentAsset.getChartCoords();
 
         priceChart.getData().add(series1);
-
-//        for (final XYChart.Data<Integer, Float> data : series1.getData()) {
-//            data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-//                @Override
-//                public void handle(MouseEvent mouseEvent) {
-//                    Tooltip.install(data.getNode(), new Tooltip("X : " + data.getXValue() + "\nY : " + String.valueOf(data.getYValue())));
-//                }
-//            });
-//        }
-        assetType.setText(currentAsset.getMarket().getType());
-
+        assetType.setText(currentAsset.getMarket().getType());  // fixme -- to remove
     }
 
 

@@ -24,10 +24,10 @@ import java.util.ResourceBundle;
 
 public class CurrenciesController implements Initializable {
 
-
     @FXML TableView<Currency> table;
     @FXML private TableColumn<Currency, String> curr_name;
     @FXML private TableColumn<Currency, Float> curr_price;
+
     @FXML private ComboBox<String> currenciesBox;
 
     @FXML private ListView<String> validInCountriesList;
@@ -37,33 +37,22 @@ public class CurrenciesController implements Initializable {
     ObservableList<String> currenciesConvertList;
     public ObservableList<Currency> currList;
 
-
-
     public void loadData() {
         currenciesConvertList = FXCollections.observableArrayList(
-                World.getCurrencies().keySet()  // fixme -- may cause troubles
-                //"EUR", "GBP", "AUD"
-        );
-
+                World.getCurrencies().keySet());
 
         currList = FXCollections.observableArrayList(
-                World.getCurrencies().values()
-        );
-
+                World.getCurrencies().values());
 
         currenciesBox.setItems(currenciesConvertList);
         updateCurrenciesTable();
     }
-
-
-
 
     public void updateCurrenciesTable() {
         curr_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         curr_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         table.setItems(currList);
     }
-
 
     Runnable refresher = new Runnable() {
         @Override
@@ -79,48 +68,42 @@ public class CurrenciesController implements Initializable {
         }
     };
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadData();
         new Thread(refresher).start();
     }
 
-
-
     private void updateInfo(){
         priceChart.getData().clear();
         XYChart.Series<String, Float> series1 = selected_currency.getChartCoords();
         priceChart.getData().add(series1);
-
         validInCountriesList.setItems(selected_currency.getValidCountries());
-
     }
 
     // actions
     public void currencySelectedAction(MouseEvent event) {
-        selected_currency = table.getSelectionModel().getSelectedItem();
-        System.out.println(selected_currency.getName());
-        updateInfo();
-    }
+//        selected_currency = table.getSelectionModel().getSelectedItem();
+//        System.out.println(selected_currency.getName());
+//        updateInfo();
 
+    }
 
     public void updateCurrentCurrency(ActionEvent event) {
-        String chosenCurrencyId = currenciesBox.getValue();
-        System.out.println(chosenCurrencyId);
-        World.setCurrentCurrency(chosenCurrencyId);
-        assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
-        if(selected_currency != null) {
-            table.refresh();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
-            // todo update info
-            System.out.println("updated, should be changed");
-        }
+//        String chosenCurrencyId = currenciesBox.getValue();
+//        System.out.println(chosenCurrencyId);
+//        World.setCurrentCurrency(chosenCurrencyId);
+//        assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
+//        if(selected_currency != null) {
+//            table.refresh();
+//            table.getColumns().get(0).setVisible(false);
+//            table.getColumns().get(0).setVisible(true);
+//            // todo update info
+//            System.out.println("updated, should be changed");
+        UtilitiesUI utUI = new UtilitiesUI();
+        utUI.updateCurrentCurrency(event);
 
     }
-
 
     public void openAdditionMenu(ActionEvent event) throws IOException {
         // I initialize and load new window here
@@ -132,11 +115,5 @@ public class CurrenciesController implements Initializable {
         stage.showAndWait();
         System.out.println("now motherfuckers");
         loadData();
-
-
-
-
-
     }
-
 }

@@ -258,10 +258,10 @@ public class World extends Thread {
 
 
     // actions to be performed by the user
-    public synchronized void pause() {
+    public static synchronized void pause() {
         paused = true;
     }
-    public synchronized void resume_() {
+    public static synchronized void resume_() {
         paused = false;
     }
     public synchronized void finish() {
@@ -305,7 +305,7 @@ public class World extends Thread {
         c.setMarket(markets.get("Commodity Market"));
     }
 
-    public boolean isPaused() {
+    public static boolean isPaused() {
         return paused;
     }
 
