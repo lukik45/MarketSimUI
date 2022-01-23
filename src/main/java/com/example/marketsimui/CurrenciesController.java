@@ -7,12 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -22,52 +19,40 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class CurrenciesController implements Initializable {
+public class CurrenciesController extends BaseController implements Initializable {
 
-    @FXML TableView<Currency> table;
+
     @FXML private TableColumn<Currency, String> curr_name;
     @FXML private TableColumn<Currency, Float> curr_price;
 
-    @FXML private ComboBox<String> currenciesBox;
 
     @FXML private ListView<String> validInCountriesList;
-    @FXML private LineChart<String, Float> priceChart;
-    private Currency selected_currency;
 
     ObservableList<String> currenciesConvertList;
-    public ObservableList<Currency> currList;
+    public ObservableList<Asset> assetList;
 
 
     public void loadData() {
         currenciesConvertList = FXCollections.observableArrayList(
                 World.getCurrencies().keySet());
 
-        currList = FXCollections.observableArrayList(
+        assetList = FXCollections.observableArrayList(
                 World.getCurrencies().values());
 
         currenciesBox.setItems(currenciesConvertList);
-        updateCurrenciesTable();
+        loadAssetTable();
     }
 
-    public void updateCurrenciesTable() {
+    public void loadAssetTable() {
         curr_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         curr_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        table.setItems(currList);
+        table.setItems(assetList);
     }
 
-    Runnable refresher = new Runnable() {
-        @Override
-        public void run() {
-            while(!Thread.interrupted()) {
-                table.refresh();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
+    @Override
+    protected void refreshStuff() {
+        table.refresh();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,35 +61,13 @@ public class CurrenciesController implements Initializable {
     }
 
 
-
-    private void updateInfo(){
+    public void loadAssetInfo(){
         priceChart.getData().clear();
-        XYChart.Series<String, Float> series1 = selected_currency.getChartCoords();
+        XYChart.Series<String, Float> series1 = currentAsset.getChartCoords();
         priceChart.getData().add(series1);
-        validInCountriesList.setItems(selected_currency.getValidCountries());
+        validInCountriesList.setItems(((Currency)currentAsset).getValidCountries());
     }
 
-    // actions
-    public void currencySelectedAction(MouseEvent event) {
-        selected_currency = table.getSelectionModel().getSelectedItem();
-        System.out.println(selected_currency.getName());
-        updateInfo();
-    }
-
-
-    public void updateCurrentCurrency(ActionEvent event) {
-        String chosenCurrencyId = currenciesBox.getValue();
-        System.out.println(chosenCurrencyId);
-        World.setCurrentCurrency(chosenCurrencyId);
-        assert Objects.equals(World.getCurrentCurrency().getName(), chosenCurrencyId);
-        if(selected_currency != null) {
-            table.refresh();
-            table.getColumns().get(0).setVisible(false);
-            table.getColumns().get(0).setVisible(true);
-            // todo update info
-            System.out.println("updated, should be changed");
-        }
-    }
 
     public void openAdditionMenu(ActionEvent event) throws IOException {
         // I initialize and load new window here
