@@ -145,13 +145,13 @@ public abstract class Asset {
             next_val = World.exchangeForCurrentCurrency(next_record.price);
             next_rec = next_record.time;
         } catch (IndexOutOfBoundsException ex) {
-            series.getData().add((new XYChart.Data<>(String.valueOf(pointer), last_val)));
+            series.getData().add((new XYChart.Data<>(String.valueOf(pointer), last_val/World.getCurrExchRate())));
             return series;
         }
 
         while (pointer <= World.time){
             while (pointer < next_rec){
-                series.getData().add(new XYChart.Data<>(String.valueOf(pointer), last_val));
+                series.getData().add(new XYChart.Data<>(String.valueOf(pointer), last_val/World.getCurrExchRate() ));
                 pointer +=1;
             } // pointer = next_val
             last_rec = next_rec;
