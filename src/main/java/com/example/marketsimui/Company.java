@@ -1,13 +1,10 @@
 package com.example.marketsimui;
 
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.max;
-import static java.lang.Math.sqrt;
 
 /**
  *
@@ -15,9 +12,9 @@ import static java.lang.Math.sqrt;
  * CEO makes good, prospective decision --> investors are more likely to support the idea and buy shares
  * CEO smokes dope on some on-air podcast --> Investors see this as a threat and want to sell shares --> share price drops
  */
-public class Company implements Runnable{
+public class Company extends Thread{
     Random rand = new Random();
-    private final String name;
+    private final String companyName;
     private Country country;
     private Market market;
     private CompanyShares shares;
@@ -44,11 +41,11 @@ public class Company implements Runnable{
 //    private float currentRisk;
 
     public Company(String name, Country country) {
-        this.name = name;
+        this.companyName = name;
         this.country = country;
     }
     public Company(String name, Market market, float totalValue, float percentIssued){
-        this.name = name;
+        this.companyName = name;
         this.market = market;
         this.country = ((StockMarket)market).getCountry();
         n_shares = World.random.nextInt((int) totalValue / 1000) + 500;
@@ -65,7 +62,16 @@ public class Company implements Runnable{
 
     }
 
-//    public void issueShare(Market market){
+    public void issueShare(){
+
+        shares.issueOne();
+    }
+
+    public void generateRevenue() {
+        // I could have modeled it in more realistic way, but here I assume that given operation
+        // just increases the value of shares
+        shares.setPrice(shares.getPrice() + Math.max((float)World.random.nextGaussian(shares.getPrice()/10000, 100), 100));
+    }
 //        //TODO - give away some part of a company, create share
 //        // and add it to the given market
 //        //to solve:
@@ -75,6 +81,8 @@ public class Company implements Runnable{
 //        // company is the initial owner of a share (as long as some investor buys the share)
 //        Share new_share = new Share(this);
 //        market.addAsset(new_share);
+
+
 //    }
 
 //    private void evaluateBehaviour(){
@@ -96,8 +104,8 @@ public class Company implements Runnable{
         this.market = market;
     }
 
-    public String getName() {
-        return name;
+    public String getCompanyName() {
+        return companyName;
     }
 
     /**
@@ -109,20 +117,23 @@ public class Company implements Runnable{
         n_shares = Math.abs((int) rand.nextGaussian(1000 + (int) share_price, 1000 ));
         n_shares_released = rand.nextInt(n_shares);
         n_shares_sold = 0;
-        shares = new CompanyShares(name, m, share_price, n_shares_released,n_shares_released, (float)0.5 );
+        shares = new CompanyShares(companyName, m, share_price, n_shares_released,n_shares_released, (float)0.5 );
 
     }
 
     @Override
     public void run() {
         // todo - when I switch to multi-thread version
-        // sth like:
-//        while (alive) {
-//            generateRevenue();
-//            issueMoreShares();
-//            buyOutShares();
-//            changePolicy();
-//            sleep();
-//        }
+        while (!Thread.interrupted()) {
+            try {
+                sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            generateRevenue();
+            if(World.random.nextFloat() < 0.05){
+                issueShare();
+            }
+        }
     }
 }

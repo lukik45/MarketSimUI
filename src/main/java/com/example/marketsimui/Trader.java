@@ -20,6 +20,8 @@ public class Trader extends Thread{
         while (!Thread.interrupted()){
             sellSomeStuff();
             goForShopping();
+            if(mind.nextDouble()<0.05)
+                increaseBudget();
             try {
                 sleep(mind.nextInt(700) + 100);
             } catch (InterruptedException e) {
@@ -91,8 +93,7 @@ public class Trader extends Thread{
 
     }
     private void increaseBudget(){
-        //TODO - there is some probability to increase the
-        // budget at a random moment in time
+        budget += Math.max(mind.nextGaussian(budget/10, budget/30), 100);
     }
 
 

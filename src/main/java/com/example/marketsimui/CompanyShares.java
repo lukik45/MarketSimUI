@@ -12,7 +12,7 @@ public class CompanyShares extends Asset {
     }
 
     @Override
-    public synchronized void update(float number) {
+    public void update(float number) {
         setAvailable_to_buy(getAvailable_to_buy() - (int) number) ;
         if (number >= 0) {
             setPrice((float) (getPrice() * (1.02 + World.random.nextFloat(0, (float)0.1))));
@@ -21,6 +21,12 @@ public class CompanyShares extends Asset {
         }
         //System.out.println("adding record");
         addPriceRecord(World.time, getPrice());
+    }
+
+    public void issueOne(){
+        setN_on_market(getN_on_market()+1);
+        setAvailable_to_buy(getAvailable_to_buy()+1);
+
     }
 
 

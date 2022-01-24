@@ -19,17 +19,17 @@ public abstract class Asset {
     private String name;
     private Market market;
     private String market_name;
-    private float price;
-    private int n_on_market;
-    private int available_to_buy;
+    private volatile float price;
+    private volatile int n_on_market;
+    private volatile int available_to_buy;
     private float investment_risk; //todo TOTO
-    private List<Record> price_history;       // charts will be built based on this field
+    private volatile List<Record> price_history;       // charts will be built based on this field
     private float tendency = 0;
-
 
     public boolean tryLockForBuy() throws InterruptedException {
         return buySemaphore.tryAcquire();
     }
+
     public void unlockAfterBuy() {
         buySemaphore.release();
     }
@@ -42,6 +42,7 @@ public abstract class Asset {
             time = t;
             price = p;
         }
+
         public int getTime() {
             return time;
         }
@@ -110,7 +111,18 @@ public abstract class Asset {
     }
 
 
-    public abstract void update(float value);
+
+
+    public synchronized void update(float number) {
+        setAvailable_to_buy(getAvailable_to_buy() - (int) number) ;
+        if (number >= 0) {
+            setPrice((float) (getPrice() * (1.02 + World.random.nextFloat(0, (float)0.1))));
+        } else {
+            setPrice((float) (getPrice() * (0.90 - World.random.nextFloat(0, (float)0.1))));
+        }
+        //System.out.println("adding record");
+        addPriceRecord(World.time, getPrice());
+    }
 
     public int getN_on_market() {
         return n_on_market;
