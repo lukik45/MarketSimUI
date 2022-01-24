@@ -1,5 +1,8 @@
-package com.example.marketsimui;
+package com.example.marketsimui.UIcontrol;
 
+import com.example.marketsimui.HelloApplication;
+import com.example.marketsimui.simulation.Asset;
+import com.example.marketsimui.simulation.World;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,12 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CommodityController extends BaseController implements Initializable {

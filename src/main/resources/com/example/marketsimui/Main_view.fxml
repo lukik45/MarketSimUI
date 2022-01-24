@@ -8,9 +8,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -24,30 +22,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marketsimui.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marketsimui.UIcontrol.MainController">
     <top>
         <HBox BorderPane.alignment="CENTER">
             <children>
-                <MenuBar prefHeight="35.0" prefWidth="955.0">
-                    <menus>
-                        <Menu mnemonicParsing="false" text="Settings" />
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
-                    </menus>
-                </MenuBar>
+                <MenuBar prefHeight="35.0" prefWidth="955.0" />
                 <ToolBar prefHeight="35.0" prefWidth="326.0">
                     <items>
-                        <Label prefHeight="17.0" prefWidth="68.0" text="Simulation">
+                  <Button mnemonicParsing="false" onAction="#openSettingsAction" text="Settings" />
+                        <Label prefHeight="17.0" prefWidth="68.0">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#resumeSim" prefHeight="25.0" prefWidth="72.0" text="Resume" />
-                        <Button mnemonicParsing="false" onAction="#pauseSim" prefHeight="25.0" prefWidth="70.0" text="Pause" />
-                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Refresh" />
                     </items>
                 </ToolBar>
             </children>
@@ -154,7 +141,7 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <LineChart fx:id="priceChart" layoutX="-7.0" layoutY="55.0" prefHeight="262.0" prefWidth="380.0">
+                <LineChart fx:id="priceChart" layoutX="-8.0" layoutY="51.0" prefHeight="262.0" prefWidth="380.0">
                     <xAxis>
                         <CategoryAxis side="BOTTOM" />
                     </xAxis>

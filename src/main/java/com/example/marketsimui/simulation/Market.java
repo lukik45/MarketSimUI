@@ -1,4 +1,6 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
+
+import com.example.marketsimui.simulation.Asset;
 
 import java.util.*;
 

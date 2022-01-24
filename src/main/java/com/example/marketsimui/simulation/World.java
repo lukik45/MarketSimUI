@@ -1,7 +1,6 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
 import java.io.*;
@@ -23,21 +22,21 @@ public class World extends Thread {
     private static float abs_unit = 1;
     public static volatile int time = 0;
     public static Random random;
-    private static int tPerSecLimit = 100;
+    private static int tPerSecLimit = 2000;
     private static Semaphore transactionCountingSemaphore;
 
 
     // for synchronization
     private static volatile boolean paused;
     private static volatile boolean finished;
-    private static Currency currentCurrency;
+    private static com.example.marketsimui.simulation.Currency currentCurrency;
 
     // data containers
     private static HashMap<String, Market> markets;
     private static HashMap<String, StockMarket> markets_by_countries;
 
     private static HashMap<String, Country> countries;
-    private static HashMap<String, Currency> currencies;
+    private static HashMap<String, com.example.marketsimui.simulation.Currency> currencies;
     private static HashMap<String, Company> companies;
     private static ObservableList<Asset> allAssets;
     private Set<Trader> traders;
@@ -69,7 +68,7 @@ public class World extends Thread {
         markets = new HashMap<String, Market>();
         markets_by_countries = new HashMap<String, StockMarket>();
         countries = new HashMap<String, Country>();
-        currencies = new HashMap<String, Currency>();
+        currencies = new HashMap<String, com.example.marketsimui.simulation.Currency>();
         companies = new HashMap<String, Company>();
         traders = new HashSet<>();
         allAssets = FXCollections.observableArrayList();
@@ -100,7 +99,7 @@ public class World extends Thread {
                 line = in.nextLine().split(";");
                 String comm_name = line[0];
                 float price = Float.parseFloat(line[1]);
-                Currency newCommodity = new Currency(comm_name, price);
+                com.example.marketsimui.simulation.Currency newCommodity = new com.example.marketsimui.simulation.Currency(comm_name, price);
                 allAssets.add(newCommodity);
                 newCommodity.setMarket(commodityMarket);
                 commodityMarket.addAsset(newCommodity);
@@ -114,7 +113,7 @@ public class World extends Thread {
                 line = in.nextLine().split(";");
                 String cur_name = line[0];
                 float exch_rate = Float.parseFloat(line[1]);
-                Currency newCurrency = new Currency(cur_name, exch_rate);
+                com.example.marketsimui.simulation.Currency newCurrency = new com.example.marketsimui.simulation.Currency(cur_name, exch_rate);
                 currencies.put(cur_name, newCurrency);
                 allAssets.add(newCurrency);
                 newCurrency.setMarket(currencyMarket);
@@ -122,7 +121,7 @@ public class World extends Thread {
             }
         }
         //  get random currency
-        currentCurrency = (Currency) currencies.values().toArray()[0];
+        currentCurrency = (com.example.marketsimui.simulation.Currency) currencies.values().toArray()[0];
 
         // create objects of countries
         try(Scanner in = new Scanner(new File("./sample_data/countries.txt"))) {
@@ -225,10 +224,6 @@ public class World extends Thread {
      */
     public void simulate1sec() {
         System.out.println("time: " + time);
-//        for (Trader t: traders) {
-//            t.sellSomeStuff();
-//            t.goForShopping();
-//        }
     }
 
 
@@ -250,7 +245,7 @@ public class World extends Thread {
             }
             simulate1sec();
             try {
-                sleep(1000);
+                sleep(950);
             } catch (InterruptedException e) {
                 break;
             }
@@ -269,6 +264,14 @@ public class World extends Thread {
 
     public static boolean reportTransaction() {
        return transactionCountingSemaphore.tryAcquire();
+    }
+
+    public static int gettPerSecLimit() {
+        return tPerSecLimit;
+    }
+
+    public static void settPerSecLimit(int tPerSecLimit) {
+        World.tPerSecLimit = tPerSecLimit;
     }
 
     public static void addAsset(Asset a){
@@ -310,7 +313,7 @@ public class World extends Thread {
     }
 
     public static void addCurrency(String name, float price){
-        Currency c = new Currency(name, price);
+        com.example.marketsimui.simulation.Currency c = new com.example.marketsimui.simulation.Currency(name, price);
         currencies.put(name, c);
         markets.get("Currency Market").addAsset(c);
         c.setMarket(markets.get("Currency Market"));
@@ -335,7 +338,7 @@ public class World extends Thread {
 // getters setters
 
 
-    public static Currency getCurrentCurrency() {
+    public static com.example.marketsimui.simulation.Currency getCurrentCurrency() {
         return currentCurrency;
     }
 

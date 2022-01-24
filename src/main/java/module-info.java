@@ -7,5 +7,10 @@ module com.example.marketsimui {
     requires eu.hansolo.tilesfx;
 
     opens com.example.marketsimui to javafx.fxml;
+
+    exports com.example.marketsimui.UIcontrol;
+    opens com.example.marketsimui.UIcontrol to javafx.fxml;
+    exports com.example.marketsimui.simulation;
+    opens com.example.marketsimui.simulation to javafx.fxml;
     exports com.example.marketsimui;
 }

@@ -1,11 +1,12 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
+import com.example.marketsimui.simulation.Country;
+import com.example.marketsimui.simulation.Index;
+import com.example.marketsimui.simulation.Market;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.HashMap;
-
-public class StockMarket extends Market{
+public class StockMarket extends Market {
     Country country;
     ObservableList<Index> indexes;
     public StockMarket(String name, String type, Country country) {

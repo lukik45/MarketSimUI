@@ -1,5 +1,8 @@
-package com.example.marketsimui;
+package com.example.marketsimui.UIcontrol;
 
+import com.example.marketsimui.HelloApplication;
+import com.example.marketsimui.simulation.Asset;
+import com.example.marketsimui.simulation.World;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,12 +13,10 @@ import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController extends BaseController implements Initializable {
@@ -25,7 +26,7 @@ public class MainController extends BaseController implements Initializable {
     @FXML private TableColumn<Asset, String> asset_market;
     @FXML private TableColumn<Asset, Float> asset_price;
     @FXML private TableColumn<Asset, Float> asset_tendency;
-
+    @FXML
 
     public ObservableList<Asset> assetList;
 
@@ -145,12 +146,18 @@ public class MainController extends BaseController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    public void openCommodities(ActionEvent event) {
-        // todo -- open commodities window
+
+    public void openSettingsAction(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        System.out.println("wtf");
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Settings_view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Settings");
+        stage.setScene(scene);
+        stage.show();
     }
-    public void openCurrencies(ActionEvent event) {
-        // todo -- open currencies window
-    }
+
+
     public void openInvestors(ActionEvent event) {
         // todo -- open investors window
     }

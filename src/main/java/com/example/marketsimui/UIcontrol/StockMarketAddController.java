@@ -1,5 +1,6 @@
-package com.example.marketsimui;
+package com.example.marketsimui.UIcontrol;
 
+import com.example.marketsimui.simulation.World;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;

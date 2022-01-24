@@ -1,10 +1,8 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
 import javafx.scene.chart.XYChart;
 
-import java.nio.channels.FileLock;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 

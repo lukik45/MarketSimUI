@@ -1,4 +1,4 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
 public class Country {
     private String name;

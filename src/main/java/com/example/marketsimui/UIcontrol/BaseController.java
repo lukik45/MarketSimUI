@@ -1,5 +1,7 @@
-package com.example.marketsimui;
+package com.example.marketsimui.UIcontrol;
 
+import com.example.marketsimui.simulation.Asset;
+import com.example.marketsimui.simulation.World;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

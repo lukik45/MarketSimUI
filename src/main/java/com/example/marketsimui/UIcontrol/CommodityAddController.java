@@ -1,17 +1,17 @@
-package com.example.marketsimui;
+package com.example.marketsimui.UIcontrol;
 
+import com.example.marketsimui.simulation.Currency;
+import com.example.marketsimui.simulation.World;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CommodityAddController implements Initializable {

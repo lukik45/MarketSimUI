@@ -1,4 +1,4 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
 public class Investor extends Trader {
     private String f_name;

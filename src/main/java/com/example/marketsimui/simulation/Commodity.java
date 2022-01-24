@@ -1,8 +1,8 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
-import java.util.HashSet;
+import com.example.marketsimui.simulation.Asset;
 
-public class Commodity extends Asset{
+public class Commodity extends Asset {
 
     public Commodity(String curr_name, float exchange_rate){
 

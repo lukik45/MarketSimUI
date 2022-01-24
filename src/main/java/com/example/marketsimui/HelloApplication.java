@@ -1,5 +1,6 @@
 package com.example.marketsimui;
 
+import com.example.marketsimui.simulation.World;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

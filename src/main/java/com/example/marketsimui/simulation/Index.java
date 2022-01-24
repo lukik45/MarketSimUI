@@ -1,8 +1,6 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
 
-import javafx.beans.value.ObservableFloatValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

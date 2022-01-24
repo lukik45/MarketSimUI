@@ -1,14 +1,12 @@
-package com.example.marketsimui;
+package com.example.marketsimui.simulation;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.zip.Inflater;
 
-public class Currency extends Asset{
+public class Currency extends Asset {
     private String curr_name;
     private Set<Country> legal_in;
     private final int n_on_market = Integer.MAX_VALUE;
