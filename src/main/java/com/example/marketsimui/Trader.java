@@ -14,6 +14,20 @@ public class Trader extends Thread{
     }
 
 
+    @Override
+    public void run() {
+        System.out.println("trader is running");
+        while (!Thread.interrupted()){
+            sellSomeStuff();
+            goForShopping();
+            try {
+                sleep(mind.nextInt(700) + 100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * For now, trader is interested in buying some asset a.
      * He has to check if he can afford it, and if he can, then how many
@@ -25,7 +39,8 @@ public class Trader extends Thread{
      */
     private void buy(Asset asset) {
         try {
-            asset.lockForBuy(); // fixme -- may cause deadlocks!!  (maybe use tryAcquire() instead)
+            if (!asset.tryLockForBuy())
+                return;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -91,21 +106,22 @@ public class Trader extends Thread{
      * Trader trades on markets, but for the simulation it does not matter if
      * the trader chooses asset to buy from  markets or from general list of all
      * assets, so for simplicity ...
-     * @param markets
+     *
      */
-    public void goForShopping(HashMap<String, Market> markets) {
-//        for (HashMap.Entry<String, Market> entry : markets.entrySet()) {
-//            String key = entry.getKey();
-//            Market next_market = entry.getValue();
-//            this.buyAt(next_market);
-//
-//        }
-
-
+    public void goForShopping() {
+        do {
+            if (!World.reportTransaction())  // cant buy wnything if the number of transactions per second's been reached
+                return;
+            Asset assetToBuy = World.getAllAssets().get(mind.nextInt(World.getAllAssets().size()));
+            buy(assetToBuy);
+        } while (mind.nextDouble() < 0.7);
     }
+
     public void sellSomeStuff() {
         Object[] listedKeys = properties.keySet().toArray();
-        while (mind.nextFloat() < 0.6) {
+        while (mind.nextFloat() < 0.75) {
+            if(!World.reportTransaction())
+                return;
             if (properties.size() > 0) {
                 try {
                     String key = (String) listedKeys[mind.nextInt(listedKeys.length)];
@@ -124,23 +140,23 @@ public class Trader extends Thread{
         }
     }
 
-    private void buyAt(Market next_market) {
-        // choose an asset to buy
-        List<Asset> promising_assets = new ArrayList<>(next_market.getAssets().values());
-        if(promising_assets.size() == 0)
-            return;
-        try {
-            // buy some
-            while (mind.nextFloat() < 0.6) {
-                this.buy(promising_assets.get(mind.nextInt(promising_assets.size())));
-            }
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage() + "\n" +
-                    promising_assets.toString() + "\n" + next_market.getName());
-            System.exit(-9);
-        }
-    }
+//    private void buyAt(Market next_market) {
+//        // choose an asset to buy
+//        List<Asset> promising_assets = new ArrayList<>(next_market.getAssets().values());
+//        if(promising_assets.size() == 0)
+//            return;
+//        try {
+//            // buy some
+//            while (mind.nextFloat() < 0.6) {
+//                this.buy(promising_assets.get(mind.nextInt(promising_assets.size())));
+//            }
+//        } catch (IllegalArgumentException ex) {
+//            ex.printStackTrace();
+//            System.out.println(ex.getMessage() + "\n" +
+//                    promising_assets.toString() + "\n" + next_market.getName());
+//            System.exit(-9);
+//        }
+//    }
 
 
     /**

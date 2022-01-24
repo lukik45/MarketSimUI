@@ -17,8 +17,9 @@ public class CompanyShares extends Asset {
         if (number >= 0) {
             setPrice((float) (getPrice() * (1.02 + World.random.nextFloat(0, (float)0.1))));
         } else {
-            setPrice((float) (getPrice() * (0.98 - World.random.nextFloat(0, (float)0.1))));
+            setPrice((float) (getPrice() * (0.90 - World.random.nextFloat(0, (float)0.1))));
         }
+        //System.out.println("adding record");
         addPriceRecord(World.time, getPrice());
     }
 

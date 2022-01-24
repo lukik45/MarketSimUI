@@ -27,8 +27,8 @@ public abstract class Asset {
     private float tendency = 0;
 
 
-    public void lockForBuy() throws InterruptedException {
-        buySemaphore.acquire();
+    public boolean tryLockForBuy() throws InterruptedException {
+        return buySemaphore.tryAcquire();
     }
     public void unlockAfterBuy() {
         buySemaphore.release();

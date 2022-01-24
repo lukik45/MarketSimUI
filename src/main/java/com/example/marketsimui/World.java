@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.max;
@@ -20,8 +21,10 @@ public class World extends Thread {
     // settings
     private static int timeout = 180;
     private static float abs_unit = 1;
-    public static int time = 0;
+    public static volatile int time = 0;
     public static Random random;
+    private static int tPerSecLimit = 100;
+    private static Semaphore transactionCountingSemaphore;
 
 
     // for synchronization
@@ -36,7 +39,7 @@ public class World extends Thread {
     private static HashMap<String, Country> countries;
     private static HashMap<String, Currency> currencies;
     private static HashMap<String, Company> companies;
-    private static HashMap<String, Asset> allAssets;
+    private static ObservableList<Asset> allAssets;
     private Set<Trader> traders;
 
 
@@ -69,8 +72,9 @@ public class World extends Thread {
         currencies = new HashMap<String, Currency>();
         companies = new HashMap<String, Company>();
         traders = new HashSet<>();
-        allAssets = new HashMap<>();
+        allAssets = FXCollections.observableArrayList();
         random = new Random();
+        transactionCountingSemaphore = new Semaphore(tPerSecLimit);
 
 
 
@@ -97,7 +101,7 @@ public class World extends Thread {
                 String comm_name = line[0];
                 float price = Float.parseFloat(line[1]);
                 Currency newCommodity = new Currency(comm_name, price);
-                allAssets.put(comm_name, newCommodity);
+                allAssets.add(newCommodity);
                 newCommodity.setMarket(commodityMarket);
                 commodityMarket.addAsset(newCommodity);
             }
@@ -112,7 +116,7 @@ public class World extends Thread {
                 float exch_rate = Float.parseFloat(line[1]);
                 Currency newCurrency = new Currency(cur_name, exch_rate);
                 currencies.put(cur_name, newCurrency);
-                allAssets.put(cur_name, newCurrency);
+                allAssets.add(newCurrency);
                 newCurrency.setMarket(currencyMarket);
                 currencyMarket.addAsset(newCurrency);
             }
@@ -164,7 +168,7 @@ public class World extends Thread {
                     new_company.setMarket(m);
                     new_company.initialAction(m);
                     m.addAsset(new_company.getShares());
-                    allAssets.put(new_company.getName(), new_company.getShares());
+                    allAssets.add(new_company.getShares());
 
                     // add the company shares to one or more indexes
                     for (int i = 0; i < random.nextInt(3)+1; i++) {
@@ -202,7 +206,7 @@ public class World extends Thread {
         String lname;
 
         for (int i = 0; i < Math.pow(currencies.size(), 2)/2; i++) {
-            budget = max((float)rand.nextGaussian(2_000_000, 1_000_000), (float) 15);
+            budget = max((float)rand.nextGaussian(500_000, 1_000_000), (float) 15);
             fname = first_names.get(rand.nextInt(first_names.size()));
             lname = last_names.get(rand.nextInt(last_names.size()));
             traders.add(new Investor(budget, fname, lname, IdGenerator.getId()));
@@ -210,7 +214,8 @@ public class World extends Thread {
 
         for(Trader t : traders){
             for (int i = 0; i < 10; i++) {
-                t.goForShopping(markets);
+                System.out.println("initial shoppping");
+                t.goForShopping();
             }
         }
     }
@@ -220,15 +225,17 @@ public class World extends Thread {
      */
     public void simulate1sec() {
         System.out.println("time: " + time);
-        for (Trader t: traders) {
-            t.sellSomeStuff();
-            t.goForShopping(markets);
-        }
+//        for (Trader t: traders) {
+//            t.sellSomeStuff();
+//            t.goForShopping();
+//        }
     }
 
 
     public void runWorld() {
         while (time < timeout && !Thread.interrupted()) {
+        transactionCountingSemaphore.drainPermits();
+        transactionCountingSemaphore.release(tPerSecLimit);
             if (paused){
                 while(paused) {
                     try {
@@ -250,14 +257,22 @@ public class World extends Thread {
             time +=1;
         }
     }
+
+
     @Override
     public void run() {
+        for( Trader t : traders){
+            t.start();
+        }
         runWorld();
     }
 
+    public static boolean reportTransaction() {
+       return transactionCountingSemaphore.tryAcquire();
+    }
 
     public static void addAsset(Asset a){
-        allAssets.put(a.getName(), a);
+        allAssets.add(a);
     }
 
     // actions to be performed by the user
@@ -328,7 +343,7 @@ public class World extends Thread {
         World.currentCurrency = currencies.get(currentCurrencyId);
     }
 
-    public static HashMap<String, Asset> getAllAssets() {
+    public static ObservableList<Asset> getAllAssets() {
         return allAssets;
     }
     public static HashMap<String, Currency> getCurrencies() {

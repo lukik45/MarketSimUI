@@ -85,8 +85,7 @@ public class MainController extends BaseController implements Initializable {
 
 
     public void loadData(){
-        assetList = FXCollections.observableArrayList(
-                World.getAllAssets().values());
+        assetList = World.getAllAssets();
         super.loadData();
         //
     }
