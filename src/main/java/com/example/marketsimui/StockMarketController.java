@@ -62,7 +62,7 @@ public class StockMarketController  extends BaseController implements Initializa
         // asset table
         stock_name.setCellValueFactory(new PropertyValueFactory<Asset, String>("name"));   //use  the "name" property of our object
         stock_market.setCellValueFactory(new PropertyValueFactory<Asset, String>("market_name"));
-        stock_price.setCellValueFactory(new PropertyValueFactory<Asset, Float>("price"));
+        stock_price.setCellValueFactory(new PropertyValueFactory<Asset, Float>("relativePrice"));
         stock_tendency.setCellValueFactory(new PropertyValueFactory<Asset, Float>("tendency"));
         table.setItems(assetList);
     }

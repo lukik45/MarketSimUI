@@ -12,18 +12,20 @@ public class CompanyShares extends Asset {
     }
 
     @Override
-    public void update(float value) {
-        available_to_buy -= value;
-        if (value >= 0) {
-            price *= (1.02 + World.random.nextFloat(0, (float)0.1));
+    public synchronized void update(float number) {
+        setAvailable_to_buy(getAvailable_to_buy() - (int) number) ;
+        if (number >= 0) {
+            setPrice((float) (getPrice() * (1.02 + World.random.nextFloat(0, (float)0.1))));
         } else {
-            price *= (0.98 - World.random.nextFloat(0, (float)0.1));
+            setPrice((float) (getPrice() * (0.98 - World.random.nextFloat(0, (float)0.1))));
         }
-        price_history.add(new Asset.Record(World.time, price));
+        addPriceRecord(World.time, getPrice());
     }
 
-    public float getTotalValueOnMarket(){
-        return price * n_on_market;
+
+
+    public synchronized float getTotalValueOnMarket(){
+        return getPrice() * getN_on_market();
     }
 
 }

@@ -67,7 +67,7 @@ public class MainController extends BaseController implements Initializable {
         // asset table
         asset_name.setCellValueFactory(new PropertyValueFactory<Asset, String>("name"));   //use  the "name" property of our object
         asset_market.setCellValueFactory(new PropertyValueFactory<Asset, String>("market_name"));
-        asset_price.setCellValueFactory(new PropertyValueFactory<Asset, Float>("price"));
+        asset_price.setCellValueFactory(new PropertyValueFactory<Asset, Float>("relativePrice"));
         asset_tendency.setCellValueFactory(new PropertyValueFactory<Asset, Float>("tendency"));
         table.setItems(assetList);
     }

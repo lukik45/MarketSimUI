@@ -345,12 +345,14 @@ public class World extends Thread {
     }
 
     public static float exchangeForCurrentCurrency(float value){
-        if (currentCurrency == null)
+        if (currentCurrency == null){
+            System.out.println("wtf");
             return value;
+        }
         return value / currentCurrency.getPrice();
     }
     public static float getCurrExchRate() {
-        return currentCurrency.price;
+        return currentCurrency.getPrice();
     }
 
     public static ObservableList<String> getCountryNames() {

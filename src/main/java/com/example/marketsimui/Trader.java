@@ -2,7 +2,7 @@ package com.example.marketsimui;
 
 import java.util.*;
 
-public class Trader {
+public class Trader extends Thread{
     private HashMap<String, Property> properties; // can't have part of an asset
     private float budget;
     private Random mind;
@@ -22,7 +22,7 @@ public class Trader {
      */
     private void buy(Asset asset){
         float price = asset.getPrice();
-        int available = asset.getN_on_market();
+        int available = asset.getAvailable_to_buy();
         // todo - manipulate the price of an asset
         // todo - currencies and commodities can be divided
         // not necessary to buy whole units

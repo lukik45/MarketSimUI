@@ -35,7 +35,7 @@ public class CurrenciesController extends BaseController implements Initializabl
 
     public void loadAssetTable() {
         curr_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        curr_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        curr_price.setCellValueFactory(new PropertyValueFactory<>("relativePrice"));
         table.setItems(assetList);
     }
 

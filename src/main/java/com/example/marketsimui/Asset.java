@@ -14,29 +14,28 @@ import java.util.List;
  *      or a specified part of an asset (if it is not divisible)
  */
 public abstract class Asset {
-    protected String name;
-    protected Market market;
-    protected String market_name;
-    protected float price;
-    protected float relative_price;
-    protected int n_on_market;
-    protected int available_to_buy;
-    protected float investment_risk; //todo TOTO
-    protected List<Record> price_history;       // charts will be built based on this field
-    protected float tendency = 0;
+    private String name;
+    private Market market;
+    private String market_name;
+    private float price;
+    private int n_on_market;
+    private int available_to_buy;
+    private float investment_risk; //todo TOTO
+    private List<Record> price_history;       // charts will be built based on this field
+    private float tendency = 0;
 
-    protected class Record {
+    private class Record {
         int time;
         float price;
 
-        protected Record(int t, float p) {
+        private Record(int t, float p) {
             time = t;
             price = p;
         }
         public int getTime() {
             return time;
         }
-        public float getPrice() {
+        public synchronized float getPrice() {
             return price;
         }
 
@@ -55,11 +54,14 @@ public abstract class Asset {
         this.investment_risk = investment_risk;
         this.price_history = new ArrayList<>();
         price_history.add(new Record(0, price));
-        relative_price = price;
+
     }
 
     public void updateRelativePrice(){}
 
+    public void addPriceRecord(int time, float price){
+        price_history.add(new Record(time, price));
+    }
 
     public Market getMarket() {
         return market;
@@ -68,10 +70,20 @@ public abstract class Asset {
         market = m;
         market_name = m.getName();
     }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public float getPrice() {
+        return price;
+    }
 
-        return price / World.getCurrExchRate();
-
+    /**
+     * Used by GUI to show price in current currency
+     */
+    public float getRelativePrice() {
+        return World.exchangeForCurrentCurrency(getPrice());
     }
 
     public String getMarket_name() {
@@ -85,7 +97,6 @@ public abstract class Asset {
     public float getTendency() {
         return tendency;
     }
-
 
 
     public abstract void update(float value);
@@ -113,19 +124,10 @@ public abstract class Asset {
         this.available_to_buy = available_to_buy;
     }
 
-    public void printInfo() {
-        //System.out.println(name + "price: " + price + "av. to buy: " + available_to_buy);
-        System.out.format("%-20s | price: %-8.2f | av. buy: %-7d |", name, price, available_to_buy);
-    }
-
-    /**
-     * This method uses @price_history to gener
-     */
-    private void getDataForChart() {
-
-    }
 
     public XYChart.Series<String, Float> getChartCoords(){
+        System.out.println("hello");
+        System.out.println(World.getCurrentCurrency().getName());
         XYChart.Series<String, Float> series = new XYChart.Series<>();
         Record record;
         Record next_record;
@@ -145,13 +147,13 @@ public abstract class Asset {
             next_val = World.exchangeForCurrentCurrency(next_record.price);
             next_rec = next_record.time;
         } catch (IndexOutOfBoundsException ex) {
-            series.getData().add((new XYChart.Data<>(String.valueOf(pointer), last_val/World.getCurrExchRate())));
+            series.getData().add((new XYChart.Data<>(String.valueOf(pointer), last_val)));
             return series;
         }
 
         while (pointer <= World.time){
             while (pointer < next_rec){
-                series.getData().add(new XYChart.Data<>(String.valueOf(pointer), last_val/World.getCurrExchRate() ));
+                series.getData().add(new XYChart.Data<>(String.valueOf(pointer), last_val ));
                 pointer +=1;
             } // pointer = next_val
             last_rec = next_rec;
@@ -166,6 +168,12 @@ public abstract class Asset {
             }
         }
         return series;
+    }
+
+
+    public void printInfo() {
+        //System.out.println(name + "price: " + price + "av. to buy: " + available_to_buy);
+        System.out.format("%-20s | price: %-8.2f | av. buy: %-7d |", name, price, available_to_buy);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class CommodityController extends BaseController implements Initializable
 
     public void loadAssetTable() {
         comm_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        comm_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        comm_price.setCellValueFactory(new PropertyValueFactory<>("relativePrice"));
         table.setItems(assetList);
     }
 
