@@ -19,8 +19,16 @@ public class Trader extends Thread{
      * He has to check if he can afford it, and if he can, then how many
      *
      * @param asset
+     *
+     * To ensure safety of the operation, I need to lock the asset so that other traders cannot
+     * buy the same asset concurrently
      */
-    private void buy(Asset asset){
+    private void buy(Asset asset) {
+        try {
+            asset.lockForBuy(); // fixme -- may cause deadlocks!!  (maybe use tryAcquire() instead)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         float price = asset.getPrice();
         int available = asset.getAvailable_to_buy();
         // todo - manipulate the price of an asset
@@ -39,14 +47,19 @@ public class Trader extends Thread{
 
             } else { // if no units of a given asset in the wallet
                 properties.put(asset.getName(), new Property(asset, (float)entities_to_buy));
+                asset.update((float)entities_to_buy);
             }
             budget -= entities_to_buy*asset.getPrice();
         }
+        asset.unlockAfterBuy();
     }
 
     /**
      * Some asset is drawn and chosen to be sold to the market
      * @param property
+     *
+     * Selling procedure is threadsafe from traders'  point
+     * the synchronization takes place in the Asset.update() method
      */
     private void sell(Property property){
 
@@ -72,29 +85,23 @@ public class Trader extends Thread{
     //TODO - I will state later,who is the observer, and how to
     // implement the communication between threads (I assume it will
     // be easier to do when I get familiar with threads
-    public void notifyObservers(){  // buy/sell action needs to be processed
-        // by market and assets, to update prices
-        //TODO
-    }
-    public void registerObserver(Observer o){
 
-        //TODO
-    }
-    public void removeObserver(Observer o){
-        //TODO
-    }
 
     /**
-     * Trader trades on markets
+     * Trader trades on markets, but for the simulation it does not matter if
+     * the trader chooses asset to buy from  markets or from general list of all
+     * assets, so for simplicity ...
      * @param markets
      */
     public void goForShopping(HashMap<String, Market> markets) {
-        for (HashMap.Entry<String, Market> entry : markets.entrySet()) {
-            String key = entry.getKey();
-            Market next_market = entry.getValue();
-            this.buyAt(next_market);
+//        for (HashMap.Entry<String, Market> entry : markets.entrySet()) {
+//            String key = entry.getKey();
+//            Market next_market = entry.getValue();
+//            this.buyAt(next_market);
+//
+//        }
 
-        }
+
     }
     public void sellSomeStuff() {
         Object[] listedKeys = properties.keySet().toArray();
@@ -153,7 +160,7 @@ public class Trader extends Thread{
          */
         protected void update(float value){
             amount += value;
-            subject.update(value);  // TODO
+            subject.update(value);
         }
     }
 }

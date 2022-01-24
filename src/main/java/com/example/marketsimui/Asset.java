@@ -6,6 +6,7 @@ import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * the instance of a class that implements Asset is not "single gold bar"
@@ -14,6 +15,7 @@ import java.util.List;
  *      or a specified part of an asset (if it is not divisible)
  */
 public abstract class Asset {
+    private Semaphore buySemaphore;
     private String name;
     private Market market;
     private String market_name;
@@ -23,6 +25,14 @@ public abstract class Asset {
     private float investment_risk; //todo TOTO
     private List<Record> price_history;       // charts will be built based on this field
     private float tendency = 0;
+
+
+    public void lockForBuy() throws InterruptedException {
+        buySemaphore.acquire();
+    }
+    public void unlockAfterBuy() {
+        buySemaphore.release();
+    }
 
     private class Record {
         int time;
@@ -54,6 +64,7 @@ public abstract class Asset {
         this.investment_risk = investment_risk;
         this.price_history = new ArrayList<>();
         price_history.add(new Record(0, price));
+        buySemaphore = new Semaphore(1);
 
     }
 
